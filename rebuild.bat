@@ -16,16 +16,16 @@ if "%~1"=="" (
 ) else if "%~1"=="-h" (
     echo Usage: %0 [OPTION]
     echo Options:
-    echo   -r, --Release   Build in Release mode.
     echo   -d, --Debug     Build in Debug mode. ^(default^)
-    echo   -h, --help      Show this help message.
+    echo   -r, --Release   Build in Release mode.
+    echo   -h, --help      Show help.
     exit /b 0
 ) else if "%~1"=="--help" (
     echo Usage: %0 [OPTION]
     echo Options:
-    echo   -r, --Release   Build in Release mode.
     echo   -d, --Debug     Build in Debug mode. ^(default^)
-    echo   -h, --help      Show this help message.
+    echo   -r, --Release   Build in Release mode.
+    echo   -h, --help      Show help.
     exit /b 0
 ) else (
     echo Invalid argument: %~1
@@ -74,7 +74,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-cd "%~dp0/bin"
+cd "../bin"
 ChessToolkit
 if %errorlevel% neq 0 (
     echo .exe launch failed
