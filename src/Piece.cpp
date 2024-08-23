@@ -4,6 +4,10 @@ Piece::Piece(Color color, PieceType type) : color{color}, type{type}{}
 Piece::~Piece(){}
 
 Piece& Piece::operator=(const Piece& other){
+    if (this == &other){
+        return *this;
+    }
+
     color = other.color;
     type = other.type;
     return *this;
