@@ -3,10 +3,10 @@
 
 #include <string>
 #include <vector>
+#include <optional>
 #include "Piece.h"
-#include "IChessBoard.h"
 
-class FEN : public IChessBoard{
+class FEN{
 private:
     std::string fen;
     int width, height;
@@ -17,7 +17,7 @@ public:
     explicit FEN(const std::string& FEN);
     FEN(const FEN& other);
     FEN(FEN&& other) noexcept;
-    ~FEN() override;
+    ~FEN();
 
     FEN& operator=(const FEN& other);
     FEN& operator=(FEN&& other) noexcept;
@@ -39,22 +39,22 @@ public:
     FEN& setHalfmovesNumber(int halfmovesNumber);
     FEN& setFullmovesNumber(int fullmovesNumber);
     
-    int getWidth() const override;
-    int getHeight() const override;
-    std::pair<int, int> getSize() const override;
+    int getWidth() const;
+    int getHeight() const;
+    std::pair<int, int> getSize() const;
 
-    bool isExist(int file, int rank) const override;
-    bool isEmpty(int file, int rank) const override;
-    std::optional<Piece> getAt(int file, int rank) const override;
+    bool isExist(int file, int rank) const;
+    bool isEmpty(int file, int rank) const;
+    std::optional<Piece> getAt(int file, int rank) const;
 
-    FEN& setAt(int file, int rank, const Piece& piece) override;
-    FEN& clearAt(int file, int rank) override;
-    FEN& removeAt(int file, int rank) override;
-    FEN& clear() override;
-
-    FEN& fromFEN(const IChessBoard& fen) override;
+    FEN& setAt(int file, int rank, const Piece& piece);
+    FEN& clearAt(int file, int rank);
+    FEN& removeAt(int file, int rank);
+    FEN& clear();
+    
+    FEN& fromFEN(const FEN& FEN);
     std::string str() const;
-
+    
     static bool isValid(const std::string& FENstring);
 };
 

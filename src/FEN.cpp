@@ -60,7 +60,7 @@ std::vector<std::string> FEN::splitFEN() const{
     return parts;
 }
 
-std::string joinFEN(const std::vector<std::string>& parts){
+std::string FEN::joinFEN(const std::vector<std::string>& parts){
     std::stringstream fenStream{};
     for (auto& part : parts){
         fenStream << part;
@@ -222,17 +222,17 @@ int FEN::getHeight() const{
 }
 
 std::pair<int, int> FEN::getSize() const{
-    return {0,0};
+    return {8, 8};
     // TODO: implement this one
 }
 
 bool FEN::isExist(int file, int rank) const{
-    return true;
+    return false;
     // TODO: implement this one
 }
 
 bool FEN::isEmpty(int file, int rank) const{
-    return true;
+    return false;
     // TODO: implement this one
 }
 
@@ -262,10 +262,10 @@ FEN& FEN::clear(){
 }
 
 std::string FEN::str() const{
-    return "fen";
+    return fen;
 }
 
-FEN& FEN::fromFEN(const IChessBoard& fen){
+FEN& FEN::fromFEN(const FEN& FEN){
     return *this;
     // TODO: implement this one
 }
