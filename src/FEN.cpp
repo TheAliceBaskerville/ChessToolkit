@@ -60,7 +60,7 @@ std::vector<std::string> FEN::splitFEN() const{
     return parts;
 }
 
-std::string joinFEN(const std::vector<std::string>& parts){
+std::string FEN::joinFEN(const std::vector<std::string>& parts){
     std::stringstream fenStream{};
     for (auto& part : parts){
         fenStream << part;
@@ -202,50 +202,62 @@ FEN& FEN::setEnPassant(const std::string& possibleEnPassantTarget){ // TODO: fin
 }
 
 FEN& FEN::setHalfmovesNumber(int halfmovesNumber){
+    return *this;
     // TODO: implement this one
 }
 
 FEN& FEN::setFullmovesNumber(int fullmovesNumber){
+    return *this;
     // TODO: implement this one
 }
 
 int FEN::getWidth() const{
+    return 8;
     // TODO: implement this one
 }
 
 int FEN::getHeight() const{
+    return 8;
     // TODO: implement this one
 }
 
 std::pair<int, int> FEN::getSize() const{
+    return {8, 8};
     // TODO: implement this one
 }
 
 bool FEN::isExist(int file, int rank) const{
+    return false;
     // TODO: implement this one
 }
 
 bool FEN::isEmpty(int file, int rank) const{
+    return false;
     // TODO: implement this one
 }
 
 std::optional<Piece> FEN::getAt(int file, int rank) const{
+    return std::nullopt;
     // TODO: implement this one
 }
 
 FEN& FEN::setAt(int file, int rank, const Piece& piece){
+    return *this;
     // TODO: implement this one
 }
 
 FEN& FEN::clearAt(int file, int rank){
+    return *this;
     // TODO: implement this one
 }
 
 FEN& FEN::removeAt(int file, int rank){
+    return *this;
     // TODO: implement this one
 }
 
 FEN& FEN::clear(){
+    return *this;
     // TODO: implement this one
 }
 
@@ -254,5 +266,6 @@ std::string FEN::str() const{
 }
 
 FEN& FEN::fromFEN(const FEN& FEN){
+    return *this;
     // TODO: implement this one
 }
