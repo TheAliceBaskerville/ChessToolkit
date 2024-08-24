@@ -58,7 +58,7 @@ public:
     MatrixBoard& removeAt(int file, int rank) override;
     MatrixBoard& clear() override;
 
-    MatrixBoard& fromFEN(const FEN& FEN) override;
+    MatrixBoard& fromFEN(const FEN& fen) override;
 };
 
 #endif

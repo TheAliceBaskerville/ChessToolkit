@@ -25,7 +25,7 @@ public:
     virtual IChessBoard& removeAt(int file, int rank) = 0;
     virtual IChessBoard& clear() = 0;
 
-    virtual IChessBoard& fromFEN(const FEN& FEN) = 0;
+    virtual IChessBoard& fromFEN(const IChessBoard& fen) = 0;
 };
 
 #endif

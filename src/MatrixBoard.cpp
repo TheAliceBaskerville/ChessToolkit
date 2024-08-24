@@ -202,14 +202,14 @@ MatrixBoard& MatrixBoard::clear(){
     return *this;
 }
 
-MatrixBoard& MatrixBoard::fromFEN(const FEN& FEN){
-    if (FEN.getSize() != std::pair{height, width}){
+MatrixBoard& MatrixBoard::fromFEN(const FEN& fen){
+    if (fen.getSize() != std::pair{height, width}){
         std::stringstream errorMessage;
         errorMessage << "Size mismatch between FEN and board dimensions, given {" << \
-        FEN.getHeight() << ", " << FEN.getWidth() << "}, expected {" << height << ", " << width << "}";
+        fen.getHeight() << ", " << fen.getWidth() << "}, expected {" << height << ", " << width << "}";
         throw std::invalid_argument{errorMessage.str()};
     }
-    std::stringstream FENboard{FEN.str().substr(0, FEN.str().find(' '))};
+    std::stringstream FENboard{fen.str().substr(0, fen.str().find(' '))};
     std::vector<std::string> ranks;
     std::string rank;
 

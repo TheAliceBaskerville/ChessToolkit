@@ -52,7 +52,7 @@ public:
     FEN& removeAt(int file, int rank) override;
     FEN& clear() override;
 
-    FEN& fromFEN(const FEN& FEN) override;
+    FEN& fromFEN(const IChessBoard& fen) override;
     std::string str() const;
 
     static bool isValid(const std::string& FENstring);
