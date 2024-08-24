@@ -5,6 +5,7 @@
 #include <string>
 #include <utility> // For std::pair
 #include "Piece.h"
+#include "FEN.h"
 
 // All of it's methods accepts file and rank in chess notation.
 class IChessBoard{
@@ -24,8 +25,7 @@ public:
     virtual IChessBoard& removeAt(int file, int rank) = 0;
     virtual IChessBoard& clear() = 0;
 
-    virtual std::string toFEN() const = 0;
-    virtual IChessBoard& fromFEN(const std::string& FEN) = 0;
+    virtual IChessBoard& fromFEN(const FEN& FEN) = 0;
 };
 
 #endif
