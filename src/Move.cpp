@@ -86,5 +86,5 @@ std::optional<Piece> Move::getCapturedPiece() const{
 }
 
 bool Move::isCapture() const{
-    return capturedPiece != std::nullopt;
+    return capturedPiece.has_value();
 }
