@@ -2,13 +2,13 @@
 #include <iostream>
 
 DrawingCanvas::DrawingCanvas() {
-    this->width = 512;
-    this->height = 512;
-    this->dimensionX = 8;
-    this->dimensionY = 8;
-    this->squareSize = this->height / this->dimensionY;
-    this->focusCordX = -1;
-    this->focusCordY = -1;
+    width = 512;
+    height = 512;
+    dimensionX = 8;
+    dimensionY = 8;
+    squareSize = height / dimensionY;
+    focusCordX = -1;
+    focusCordY = -1;
 }
 
 DrawingCanvas::~DrawingCanvas() {
@@ -16,19 +16,21 @@ DrawingCanvas::~DrawingCanvas() {
 }
 
 std::pair<int,int> DrawingCanvas::getRankAndFileForCords(int x, int y) {
-    for(int squareRankCordX{0}; squareRankCordX < dimensionX * squareSize; squareRankCordX = squareRankCordX + squareSize) {
-        for(int squareRankCordY{0}; squareRankCordY < dimensionY * squareSize; squareRankCordY = squareRankCordY + squareSize) {
-            if((x >= squareRankCordX) && (x <= squareRankCordX + squareSize) 
-            && (y >= squareRankCordY) && (y <= squareRankCordY + squareSize)) {
-                return std::make_pair(squareRankCordX / (dimensionX * dimensionX), squareRankCordY / (dimensionY * dimensionY));
+    //refactor cordX / squareSize
+    for(int RankCordX{0}; RankCordX < dimensionX * squareSize; RankCordX = RankCordX + squareSize) {
+        for(int RankCordY{0}; RankCordY < dimensionY * squareSize; RankCordY = RankCordY + squareSize) {
+            if((x >= RankCordX) && (x <= RankCordX + squareSize) 
+            && (y >= RankCordY) && (y <= RankCordY + squareSize)) {
+                return std::make_pair(RankCordX / (dimensionX * dimensionX), RankCordY / (dimensionY * dimensionY));
             }
         }
     }
-} 
+}
 
 DrawingCanvas& DrawingCanvas::drawEmptyBoard(sf::RenderWindow* window) {
     for(int rank{0}; rank < dimensionX; ++rank) {
         for(int file{0}; file < dimensionY; ++file) {
+            //refactor to index notation
             
             sf::RectangleShape square;
             square.setSize(sf::Vector2f(squareSize, squareSize));
@@ -50,7 +52,7 @@ DrawingCanvas& DrawingCanvas::drawEmptyBoard(sf::RenderWindow* window) {
 
 DrawingCanvas& DrawingCanvas::drawPieces(sf::RenderWindow* window) {
     //
-     std::vector<std::vector<std::string>> board{ { "bR", "--", "--", "--", "--", "--", "--", "bQ" },
+     std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
                                                      { "--", "bR", "--", "--", "--", "--", "--", "--" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" },
@@ -59,6 +61,8 @@ DrawingCanvas& DrawingCanvas::drawPieces(sf::RenderWindow* window) {
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" },   
                                                      { "--", "--", "--", "bR", "--", "--", "--", "--" } };
     //
+
+    //refactor to index notation
     for(int rank{0}; rank < dimensionX; ++rank) {
         for(int file{0}; file < dimensionY; ++file) {
             std::string piece = board[dimensionX - rank - 1][file];
@@ -72,25 +76,22 @@ DrawingCanvas& DrawingCanvas::drawPieces(sf::RenderWindow* window) {
             }
         }
     }
+    //
     return *this;
 }
 
 DrawingCanvas& DrawingCanvas::drawFocus(sf::RenderWindow* window) {
     if((focusCordX != -1) && (focusCordY != -1)) {
-        std::pair<int, int> rankAndFile = getRankAndFileForCords(focusCordX, focusCordY);
+        std::pair<int, int> rankAndFile{focusCordX, focusCordY};
         sf::RectangleShape square;
-        square.setSize(sf::Vector2f(squareSize, squareSize));
+        square.setSize(sf::Vector2f{squareSize, squareSize});
         square.setOutlineColor(sf::Color::Black);
         square.setOutlineThickness(5);
-        square.setOutlineColor(sf::Color(0, 0, 255));
+        square.setOutlineColor(sf::Color{0, 0, 255});
 
-        if((rankAndFile.first + rankAndFile.second) % 2 == 0) {
-            square.setFillColor(sf::Color(255, 255, 255));
-        }else {
-            square.setFillColor(sf::Color(0, 0, 0));
-        }
+        square.setFillColor(sf::Color{0,0,0,0});
 
-        square.setPosition(sf::Vector2f(rankAndFile.first * squareSize, rankAndFile.second * squareSize));
+        square.setPosition(sf::Vector2f{rankAndFile.first * squareSize, rankAndFile.second * squareSize});
         window->draw(square);
     }
     return *this;
@@ -98,18 +99,14 @@ DrawingCanvas& DrawingCanvas::drawFocus(sf::RenderWindow* window) {
 
 DrawingCanvas& DrawingCanvas::SetFocusCord(int x, int y) {
     if ((x >= 0) && (y >= 0)) {
-        this->focusCordX = x;
-        this->focusCordY = y;
+        focusCordX = x;
+        focusCordY = y;
     }
-    std::pair<int,int> pair = getRankAndFileForCords(focusCordX, focusCordY);
-    std::cout << pair.first;
-    std::cout << "\n";
-    std::cout << pair.second;
     return *this;
 }
 
 DrawingCanvas& DrawingCanvas::removeFocus() {
-    this->focusCordX = -1;
-    this->focusCordY = -1;  
+    focusCordX = -1;
+    focusCordY = -1;  
     return *this; 
 }

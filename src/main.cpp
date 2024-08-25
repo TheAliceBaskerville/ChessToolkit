@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <drawingCanvas.h>
+#include <ClickHandler.h>
 
 int main()
 {
@@ -7,6 +8,7 @@ int main()
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
     DrawingCanvas canvas;
+    ClickHandler clickHandler{&window, &canvas};
 
     while (window.isOpen())
     {
@@ -20,12 +22,13 @@ int main()
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    std::cout << "the right button was pressed" << std::endl;
-                    std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-                    std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-                    canvas.removeFocus();
-                    canvas.SetFocusCord(event.mouseButton.x, event.mouseButton.y);
+                    //создать обёртку
+                    clickHandler.checkClickLeftButton(event.mouseButton.x, event.mouseButton.y, &canvas);
                 }
+                 if (event.mouseButton.button == sf::Mouse::Right) {
+                    std::cout << "right";
+                    clickHandler.checkClickRightButton();   
+                 }
             }
         }
         window.clear(sf::Color::White);
