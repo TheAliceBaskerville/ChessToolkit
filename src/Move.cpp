@@ -2,7 +2,7 @@
 
 Move::Move(int startFile, int startRank, int endFile, int endRank,
      bool isEnPassant, bool isPawnPromotion, const std::optional<Piece>& promotionChoice, 
-     const Piece& movedPiece, const std::optional<Piece>& capturedPiece)
+     const std::optional<Piece>& movedPiece, const std::optional<Piece>& capturedPiece)
     : startFile{startFile}, startRank{startRank}, endFile{endFile}, endRank{endRank},
       isEnPassantFlag{isEnPassant}, isPawnPromotionFlag{isPawnPromotion}, promotionChoice{promotionChoice},
       movedPiece{movedPiece}, capturedPiece{capturedPiece}{}
@@ -77,7 +77,7 @@ std::optional<Piece> Move::getPromotionChoice() const{
     return promotionChoice;
 }
 
-Piece Move::getMovedPiece() const{
+std::optional<Piece> Move::getMovedPiece() const{
     return movedPiece;
 }
 

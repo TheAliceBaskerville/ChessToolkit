@@ -10,12 +10,11 @@ private:
     int startFile, startRank, endFile, endRank;
     bool isEnPassantFlag, isPawnPromotionFlag;
     std::optional<Piece> promotionChoice;
-    Piece movedPiece;
-    std::optional<Piece> capturedPiece;
+    std::optional<Piece> movedPiece, capturedPiece;
 public:
     Move(int startFile, int startRank, int endFile, int endRank,
          bool isEnPassant, bool isPawnPromotion, const std::optional<Piece>& promotionChoice,
-         const Piece& movedPiece, const std::optional<Piece>& capturedPiece);
+         const std::optional<Piece>& movedPiece, const std::optional<Piece>& capturedPiece);
     ~Move();
 
     Move& operator=(const Move& other);
@@ -33,7 +32,7 @@ public:
     bool isPawnPromotion() const;
     std::optional<Piece> getPromotionChoice() const;
 
-    Piece getMovedPiece() const;
+    std::optional<Piece> getMovedPiece() const;
     std::optional<Piece> getCapturedPiece() const;
     bool isCapture() const;
 };
