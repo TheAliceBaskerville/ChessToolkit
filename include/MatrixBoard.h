@@ -50,12 +50,18 @@ public:
     std::pair<int, int> getSize() const override;
 
     bool isExist(int file, int rank) const override;
+    bool isExist(std::pair<int, int> position) const override;
     bool isEmpty(int file, int rank) const override;
+    bool isEmpty(std::pair<int, int> position) const override;
     std::optional<Piece> getAt(int file, int rank) const override;
+    std::optional<Piece> getAt(std::pair<int, int> position) const override;
 
     MatrixBoard& setAt(int file, int rank, const Piece& piece) override;
+    MatrixBoard& setAt(std::pair<int, int> position ) override;
     MatrixBoard& clearAt(int file, int rank) override;
+    MatrixBoard& clearAt(std::pair<int, int> position) override;
     MatrixBoard& removeAt(int file, int rank) override;
+    MatrixBoard& removeAt(std::pair<int, int> position) override;
     MatrixBoard& clear() override;
 
     MatrixBoard& fromFEN(const FEN& FEN) override;

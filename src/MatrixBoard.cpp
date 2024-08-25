@@ -151,9 +151,17 @@ bool MatrixBoard::isExist(int file, int rank) const{
     return board[indexes.first][indexes.second].isExist();
 }
 
+bool MatrixBoard::isExist(std::pair<int, int> position) const{
+    return isExist(position.first, position.second);
+}
+
 bool MatrixBoard::isEmpty(int file, int rank) const{
     std::pair<int, int> indexes = notationToIndex(file, rank);
     return board[indexes.first][indexes.second].isEmpty();
+}
+
+bool MatrixBoard::isEmpty(std::pair<int, int> position) const{
+    return isEmpty(position.first, position.second);
 }
 
 std::optional<Piece> MatrixBoard::getAt(int file, int rank) const{
@@ -161,6 +169,10 @@ std::optional<Piece> MatrixBoard::getAt(int file, int rank) const{
     if (!board[indexes.first][indexes.second].isExist() || board[indexes.first][indexes.second].isEmpty())
         return std::nullopt;
     return std::optional(board[indexes.first][indexes.second].getPiece());
+}
+
+std::optional<Piece> MatrixBoard::getAt(std::pair<int, int> position) const{
+    return getAt(position.first, position.second);
 }
 
 MatrixBoard& MatrixBoard::setAt(int file, int rank, const Piece& piece){
@@ -175,6 +187,10 @@ MatrixBoard& MatrixBoard::setAt(int file, int rank, const Piece& piece){
     return *this;
 }
 
+MatrixBoard& MatrixBoard::setAt(std::pair<int, int> position, const Piece& piece){
+    return setAt(position.first, position.second, piece);
+}
+
 MatrixBoard& MatrixBoard::clearAt(int file, int rank){
     std::pair<int, int> indexes = notationToIndex(file, rank);
     if (!board[indexes.first][indexes.second].isExist()){
@@ -186,10 +202,18 @@ MatrixBoard& MatrixBoard::clearAt(int file, int rank){
     return *this;
 }
 
+MatrixBoard& MatrixBoard::clearAt(std::pair<int, int> position){
+    return clearAt(position.first, position.second);
+}
+
 MatrixBoard& MatrixBoard::removeAt(int file, int rank){
     std::pair<int, int> indexes = notationToIndex(file, rank);
     board[indexes.first][indexes.second].setExist(false);
     return *this;
+}
+
+MatrixBoard& MatrixBoard::removeAt(std::pair<int, int> position){
+    return removeAt(position.first, position.second);
 }
 
 MatrixBoard& MatrixBoard::clear(){
