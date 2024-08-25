@@ -18,6 +18,11 @@ CastlingRights& CastlingRights::add(Color color, int file){
     return *this;
 }
 
+CastlingRights& CastlingRights::remove(Color color, int file){
+    castlingFiles.at(color).erase(file);
+    return *this;
+}
+
 CastlingRights& CastlingRights::set(Color color, std::set<int> rights){
     castlingFiles.at(color) = rights;
     return *this;
