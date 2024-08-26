@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <drawingCanvas.h>
 #include <ClickHandler.h>
+#include <KeyboardHandler.h>
 
 int main()
 {
@@ -9,6 +10,7 @@ int main()
     window.setVerticalSyncEnabled(true);
     DrawingCanvas canvas;
     ClickHandler clickHandler{&window, &canvas};
+    KeyboardHandler keyboardHandler{&window, &canvas};
 
     while (window.isOpen())
     {
@@ -29,6 +31,9 @@ int main()
                     std::cout << "right";
                     clickHandler.checkClickRightButton();   
                  }
+            }
+            if(event.type == sf::Event::KeyPressed) {
+                keyboardHandler.analyzeKeyboardInput(&event);
             }
         }
         window.clear(sf::Color::White);
