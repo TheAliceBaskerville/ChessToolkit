@@ -15,7 +15,7 @@ DrawingCanvas::~DrawingCanvas() {
     delete this;
 }
 
-std::pair<int,int> DrawingCanvas::getRankAndFileForCords(int x, int y) {
+std::pair<int,int> DrawingCanvas::getRankAndFileFromCords(int x, int y) {
     //refactor cordX / squareSize
     for(int RankCordX{0}; RankCordX < dimensionX * squareSize; RankCordX = RankCordX + squareSize) {
         for(int RankCordY{0}; RankCordY < dimensionY * squareSize; RankCordY = RankCordY + squareSize) {

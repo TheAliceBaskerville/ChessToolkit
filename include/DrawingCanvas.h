@@ -23,7 +23,7 @@ class DrawingCanvas {
         DrawingCanvas& drawPieces(sf::RenderWindow* window);
         DrawingCanvas& drawFocus(sf::RenderWindow* window);
         DrawingCanvas& SetFocusCord(int x, int y);
-        std::pair<int, int> getRankAndFileForCords(int x, int y);
+        std::pair<int, int> getRankAndFileFromCords(int x, int y);
         DrawingCanvas& removeFocus();
         DrawingCanvas& resize();
 };

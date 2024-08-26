@@ -13,11 +13,12 @@ class ClickHandler {
         ClickAction clickAction;
         bool isPiece(int rank, int file, std::vector<std::vector<std::string>>& board);
         bool isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board);
+        ClickHandler& checkClickLeftButtonFromBoard(int cordx, int cordy, DrawingCanvas* canvas);
+        ClickHandler& checkClickRightButtonFromBoard();
     public:
         ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas);
         ~ClickHandler();
-        ClickHandler& checkClickLeftButton(int cordx, int cordy, DrawingCanvas* canvas);
-        ClickHandler& checkClickRightButton();
+        ClickHandler& analyzeMouseInputFromBoard(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event);
 };
 
 #endif

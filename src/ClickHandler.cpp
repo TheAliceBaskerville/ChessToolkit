@@ -9,9 +9,24 @@ ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanva
 
 ClickHandler::~ClickHandler() {}
 
-ClickHandler& ClickHandler::checkClickLeftButton(int x, int y, DrawingCanvas* canvas) {
+ClickHandler& ClickHandler::analyzeMouseInputFromBoard(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event) {
+    switch (event->mouseButton.button)
+    {
+    case sf::Mouse::Left:
+        checkClickLeftButtonFromBoard(event->mouseButton.x, event->mouseButton.y, canvas);
+        break;
+    case sf::Mouse::Right:
+        checkClickRightButtonFromBoard();
+        break;
+    default:
+        break;
+    }
+    return *this;
+}
+
+ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingCanvas* canvas) {
     //from
-    std::pair<int, int> rankAndFile{canvas->getRankAndFileForCords(x, y)};
+    std::pair<int, int> rankAndFile{canvas->getRankAndFileFromCords(x, y)};
     //
     std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
@@ -21,13 +36,7 @@ ClickHandler& ClickHandler::checkClickLeftButton(int x, int y, DrawingCanvas* ca
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" },   
                                                      { "--", "--", "--", "bR", "--", "--", "--", "--" } };
-    //  for(int i{0}; i < 8; ++i) {
-    //         for( int k{0}; k < 8; ++k) {
-    //             std::cout << board[rankAndFile.second][rankAndFile.first];
-    //         }
-    //     std::cout << "\n";
-    //     }
-    //
+
     if(figureIsSelected) {
         if(isPiece(rankAndFile.first, rankAndFile.second, board) && isCurrentColor(rankAndFile.first, rankAndFile.second, board)) {
             selectedRank = rankAndFile.first;
@@ -53,14 +62,15 @@ ClickHandler& ClickHandler::checkClickLeftButton(int x, int y, DrawingCanvas* ca
     return *this;
 }
 
-ClickHandler& ClickHandler::checkClickRightButton() {
-    if(figureIsSelected) {
-        std::cout << "321";
-        figureIsSelected = false;
-        selectedRank = -1;
-        selectedFile = -1;
-        clickAction.removeFocus();
-    }
+ClickHandler& ClickHandler::checkClickRightButtonFromBoard() {
+    // if(figureIsSelected) {
+    //     std::cout << "321";
+    //     figureIsSelected = false;
+    //     selectedRank = -1;
+    //     selectedFile = -1;
+    //     clickAction.removeFocus();
+    // }
+    return *this;
 }
 
 bool ClickHandler::isPiece(int rank, int file, std::vector<std::vector<std::string>>& board) {

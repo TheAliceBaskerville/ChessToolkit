@@ -22,15 +22,7 @@ int main()
             }
             if (event.type == sf::Event::MouseButtonPressed)
             {
-                if (event.mouseButton.button == sf::Mouse::Left)
-                {
-                    //создать обёртку
-                    clickHandler.checkClickLeftButton(event.mouseButton.x, event.mouseButton.y, &canvas);
-                }
-                 if (event.mouseButton.button == sf::Mouse::Right) {
-                    std::cout << "right";
-                    clickHandler.checkClickRightButton();   
-                 }
+                clickHandler.analyzeMouseInputFromBoard(event.mouseButton.x, event.mouseButton.y, &canvas, &event);
             }
             if(event.type == sf::Event::KeyPressed) {
                 keyboardHandler.analyzeKeyboardInput(&event);
