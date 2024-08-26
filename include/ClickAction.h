@@ -11,7 +11,6 @@ private:
     sf::RenderWindow* window;
 public:
     ClickAction(DrawingCanvas* canvas, sf::RenderWindow* window);
-    ClickAction();
     ~ClickAction();
     ClickAction& setFocus(int x, int y);
     ClickAction& createMove(int startRank, int startFile, int endRank, int endFile);

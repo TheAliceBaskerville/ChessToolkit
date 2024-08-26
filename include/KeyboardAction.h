@@ -2,7 +2,6 @@
 #define KEYBOARDACTION_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <DrawingCanvas.h>
 
 class KeyboardAction

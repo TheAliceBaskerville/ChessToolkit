@@ -1,13 +1,10 @@
 #include "ClickHandler.h"
 
-ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas) {
+ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas)
+: clickAction(drawingCanvas, window) {
     figureIsSelected = false;
-    ClickAction clickAction{drawingCanvas, window};
-    this->clickAction = clickAction;
-}
-
-ClickHandler::ClickHandler() {
-    figureIsSelected = false;
+    selectedRank = -1;
+    selectedFile = -1;
 }
 
 ClickHandler::~ClickHandler() {}

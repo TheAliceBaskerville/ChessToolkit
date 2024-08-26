@@ -7,8 +7,6 @@ ClickAction::ClickAction(DrawingCanvas* canvas, sf::RenderWindow* window) {
 
 ClickAction::~ClickAction() {}
 
-ClickAction::ClickAction() {}
-
 ClickAction& ClickAction::setFocus(int rank, int file) {
     canvas->SetFocusCord(rank, file);
     return *this;

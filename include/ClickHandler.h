@@ -15,7 +15,6 @@ class ClickHandler {
         bool isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board);
     public:
         ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas);
-        ClickHandler();
         ~ClickHandler();
         ClickHandler& checkClickLeftButton(int cordx, int cordy, DrawingCanvas* canvas);
         ClickHandler& checkClickRightButton();
