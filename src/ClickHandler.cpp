@@ -25,9 +25,9 @@ ClickHandler& ClickHandler::analyzeMouseInputFromBoard(int cordx, int cordy, Dra
 }
 
 ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingCanvas* canvas) {
-    //from
+
     std::pair<int, int> rankAndFile{canvas->getRankAndFileFromCords(x, y)};
-    //
+
     std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
                                                      { "--", "bR", "--", "--", "--", "--", "--", "--" },
@@ -83,7 +83,6 @@ bool ClickHandler::isPiece(int rank, int file, std::vector<std::vector<std::stri
 bool ClickHandler::isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board) {
     std::string color = board[file][rank].substr(0, 1);
     if(color == "b") {
-        std::cout << "1";
         return true;
     }
     return false;
