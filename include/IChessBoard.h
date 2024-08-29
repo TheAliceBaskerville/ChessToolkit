@@ -8,7 +8,7 @@
 #include "FEN.h"
 
 // All of it's methods accepts file and rank in chess notation.
-class IChessBoard{
+class IChessBoard{ // TODO: think on adding iterators for it.
 public:
     virtual ~IChessBoard() = default;
 

@@ -35,6 +35,7 @@ public:
     std::optional<Piece> getMovedPiece() const;
     std::optional<Piece> getCapturedPiece() const;
     bool isCapture() const;
+    bool hasMovedPiece() const;
 };
 
 #endif
