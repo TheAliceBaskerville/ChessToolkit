@@ -9,6 +9,9 @@ private:
 public:
     Position(int file=0, int rank=0);
     Position(const std::pair<int, int>& pair);
+    Position(int boardHeight, int row, int column);
+    Position(int boardHeight, const std::pair<int, int>& indexes);
+    Position(const Position& other);
     ~Position();
 
     Position& operator=(const Position& other);
@@ -23,7 +26,9 @@ public:
     Position& setRank(int rank);
     Position& setPair(const std::pair<int, int>& pair);
 
-    std::pair<int, int> toIndex(int boardSize) const;
+    std::pair<int, int> toIndex(int boardHeight) const;
+    Position offset(int fileOffset, int rankOffset) const;
+    Position offset(const std::pair<int, int>& offset) const;
 };
 
 #endif
