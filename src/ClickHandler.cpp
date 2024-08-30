@@ -9,6 +9,17 @@ ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanva
 
 ClickHandler::~ClickHandler() {}
 
+ClickHandler& ClickHandler::analyzeMouseInput(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event) {
+    int squareSize = canvas->getSquareSize();
+    std::pair<int, int> dimansions = canvas->getDimesions();
+
+    if((cordx > (dimansions.first * squareSize)) || (cordy > (dimansions.second * squareSize))) {
+        return *this;
+    }else {
+        return analyzeMouseInputFromBoard(cordx, cordy, canvas, event);
+    }
+}
+
 ClickHandler& ClickHandler::analyzeMouseInputFromBoard(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event) {
     switch (event->mouseButton.button)
     {
@@ -63,13 +74,6 @@ ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingC
 }
 
 ClickHandler& ClickHandler::checkClickRightButtonFromBoard() {
-    // if(figureIsSelected) {
-    //     std::cout << "321";
-    //     figureIsSelected = false;
-    //     selectedRank = -1;
-    //     selectedFile = -1;
-    //     clickAction.removeFocus();
-    // }
     return *this;
 }
 

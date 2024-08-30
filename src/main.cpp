@@ -41,7 +41,7 @@ int main()
                 }
             }
             if (event.type == sf::Event::MouseButtonPressed) {
-                clickHandler.analyzeMouseInputFromBoard(event.mouseButton.x, event.mouseButton.y, &canvas, &event);
+                clickHandler.analyzeMouseInput(event.mouseButton.x, event.mouseButton.y, &canvas, &event);
             }
             if(event.type == sf::Event::KeyPressed) {
                 keyboardHandler.analyzeKeyboardInput(&event);

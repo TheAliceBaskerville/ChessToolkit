@@ -110,3 +110,11 @@ DrawingCanvas& DrawingCanvas::removeFocus() {
     focusCordY = -1;  
     return *this; 
 }
+
+int DrawingCanvas::getSquareSize() {
+    return squareSize;
+}
+
+std::pair<int, int> DrawingCanvas::getDimesions() {
+    return std::make_pair(dimensionX, dimensionY);
+}
