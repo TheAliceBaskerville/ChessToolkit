@@ -1,18 +1,32 @@
 #include "DrawingCanvas.h"
 #include <iostream>
 
-DrawingCanvas::DrawingCanvas() {
-    width = 512;
-    height = 512;
+DrawingCanvas::DrawingCanvas(int width, int height) {
     dimensionX = 8;
     dimensionY = 8;
-    squareSize = height / dimensionY;
+    squareSize = calculateSquareSize(width, height);
     focusCordX = -1;
     focusCordY = -1;
 }
 
 DrawingCanvas::~DrawingCanvas() {
     delete this;
+}
+
+DrawingCanvas& DrawingCanvas::resize(int width, int height) {
+    squareSize = calculateSquareSize(width, height);
+    return *this;
+}
+
+int DrawingCanvas::calculateSquareSize(int width, int height) {
+    int widthSquareSize, heightSquareSize;
+    widthSquareSize = width / dimensionX;
+    heightSquareSize = height / dimensionY;
+    if (widthSquareSize < heightSquareSize) {
+        return widthSquareSize;
+    } else {
+        return heightSquareSize;
+    }
 }
 
 std::pair<int,int> DrawingCanvas::getRankAndFileFromCords(int cordX, int cordY) {
@@ -58,6 +72,7 @@ DrawingCanvas& DrawingCanvas::drawPieces(sf::RenderWindow* window) {
                 sf::Texture pieceTexture;
                 pieceTexture.loadFromImage(piecesImages.GetPiecesImages()[piece]);
                 sf::Sprite pieceSprite;
+                pieceSprite.setScale(static_cast<float>(squareSize) / 64, static_cast<float>(squareSize) / 64);
                 pieceSprite.setTexture(pieceTexture);
                 pieceSprite.setPosition(rank * squareSize, file * squareSize);
                 window->draw(pieceSprite);

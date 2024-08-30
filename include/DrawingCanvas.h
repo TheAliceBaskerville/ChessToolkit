@@ -6,18 +6,15 @@
 
 class DrawingCanvas {
     private:
-        //сделать глобальной
-        int width = 512;
-        int height = 512;
-        
         int dimensionX;
         int dimensionY;
         int squareSize;
         int focusCordX;
         int focusCordY;
         PiecesImages piecesImages;
+        int calculateSquareSize(int wigth, int height);
     public:
-        DrawingCanvas();
+        DrawingCanvas(int width, int height);
         ~DrawingCanvas();
         DrawingCanvas& drawEmptyBoard(sf::RenderWindow* window);
         DrawingCanvas& drawPieces(sf::RenderWindow* window);
@@ -25,7 +22,7 @@ class DrawingCanvas {
         DrawingCanvas& SetFocusCord(int x, int y);
         std::pair<int, int> getRankAndFileFromCords(int x, int y);
         DrawingCanvas& removeFocus();
-        DrawingCanvas& resize();
+        DrawingCanvas& resize(int width, int height);
 };
 
 #endif
