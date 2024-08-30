@@ -31,7 +31,6 @@ int main()
                 window.close();
             }
             if (event.type == sf::Event::Resized) {
-                //появляется область, которая не отрисовывается бордой и при этом при нажатии на неё происходит вылет.
                 if(event.size.width < 512 || event.size.height < 512) {
                     resize(width, height, &window, &canvas);
                 }else {

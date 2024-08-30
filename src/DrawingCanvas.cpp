@@ -38,8 +38,6 @@ DrawingCanvas& DrawingCanvas::drawEmptyBoard(sf::RenderWindow* window) {
         for(int file{0}; file < dimensionY; ++file) {
             sf::RectangleShape square;
             square.setSize(sf::Vector2f(squareSize, squareSize));
-            square.setOutlineColor(sf::Color::Black);
-            square.setOutlineThickness(2);
 
             if((rank + file) % 2 == 0) {
                 square.setFillColor(sf::Color(255, 255, 255));
@@ -84,14 +82,14 @@ DrawingCanvas& DrawingCanvas::drawPieces(sf::RenderWindow* window) {
 
 DrawingCanvas& DrawingCanvas::drawFocus(sf::RenderWindow* window) {
     if((focusCordX != -1) && (focusCordY != -1)) {
+        int thickness = 5;
         std::pair<int, int> rankAndFile{focusCordX, focusCordY};
         sf::RectangleShape square;
-        square.setSize(sf::Vector2f{squareSize, squareSize});
-        square.setOutlineColor(sf::Color::Black);
-        square.setOutlineThickness(5);
+        square.setSize(sf::Vector2f{squareSize - thickness * 2, squareSize - thickness * 2});
+        square.setOutlineThickness(thickness);
         square.setOutlineColor(sf::Color{0, 0, 255});
         square.setFillColor(sf::Color{0,0,0,0});
-        square.setPosition(sf::Vector2f{rankAndFile.first * squareSize, rankAndFile.second * squareSize});
+        square.setPosition(sf::Vector2f{(rankAndFile.first * squareSize) + thickness, (rankAndFile.second * squareSize) + thickness});
         window->draw(square);
     }
     return *this;
