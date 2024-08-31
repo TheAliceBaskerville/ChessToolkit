@@ -1,11 +1,10 @@
 #include "Move.h"
 
-Move::Move(int startFile, int startRank, int endFile, int endRank,
-     bool isEnPassant, bool isPawnPromotion, const std::optional<Piece>& promotionChoice, 
-     const std::optional<Piece>& movedPiece, const std::optional<Piece>& capturedPiece)
-    : startFile{startFile}, startRank{startRank}, endFile{endFile}, endRank{endRank},
-      isEnPassantFlag{isEnPassant}, isPawnPromotionFlag{isPawnPromotion}, promotionChoice{promotionChoice},
-      movedPiece{movedPiece}, capturedPiece{capturedPiece}{}
+Move::Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion,
+           const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
+           const std::optional<Piece>& capturedPiece)
+           : start{start}, end{end}, isEnPassantFlag{isEnPassant}, isPawnPromotionFlag{isPawnPromotion},
+           promotionChoice{promotionChoice}, movedPiece{movedPiece}, capturedPiece{capturedPiece}{}
 
 Move::~Move(){}
 
@@ -14,10 +13,8 @@ Move& Move::operator=(const Move& other){
         return *this;
     }
 
-    startFile = other.startFile;
-    startRank = other.startRank;
-    endFile = other.endFile;
-    endRank = other.endRank;
+    start = other.start;
+    end = other.end;
     isEnPassantFlag = other.isEnPassantFlag;
     isPawnPromotionFlag = other.isPawnPromotionFlag;
     movedPiece = other.movedPiece;
@@ -27,10 +24,8 @@ Move& Move::operator=(const Move& other){
 }
 
 bool Move::operator==(const Move& other) const{
-    return (startFile == other.startFile &&
-           startRank == other.startRank &&
-           endFile == other.endFile &&
-           endRank == other.endRank &&
+    return (start == other.start &&
+           end == other.end &&
            isEnPassantFlag == other.isEnPassantFlag &&
            isPawnPromotionFlag == other.isPawnPromotionFlag &&
            movedPiece == other.movedPiece &&
@@ -41,28 +36,13 @@ bool Move::operator!=(const Move& other) const{
     return !(*this == other);
 }
 
-int Move::getStartFile() const{
-    return startFile;
+
+Position Move::getStart() const{
+    return start;
 }
 
-int Move::getStartRank() const{
-    return startRank;
-}
-
-int Move::getEndFile() const{
-    return endFile;
-}
-
-int Move::getEndRank() const{
-    return endRank;
-}
-
-std::pair<int, int> Move::getStart() const{
-    return {startFile, startRank};
-}
-
-std::pair<int, int> Move::getEnd() const{
-    return {endFile, endRank};
+Position Move::getEnd() const{
+    return end;
 }
 
 bool Move::isEnPassant() const{

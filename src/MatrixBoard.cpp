@@ -116,24 +116,6 @@ bool MatrixBoard::operator!=(const MatrixBoard& other) const{
     return !(*this == other);
 }
 
-std::pair<int, int> MatrixBoard::notationToIndex(int file, int rank) const{
-    if (file < 1 || file > width){
-        std::stringstream errorMessage;
-        errorMessage << "File is out of range: " << file;
-        throw std::out_of_range{errorMessage.str()};
-    }
-    if (rank < 1 || rank > height){
-        std::stringstream errorMessage;
-        errorMessage << "Rank is out of range: " << rank;
-        throw std::out_of_range{errorMessage.str()};
-    }
-    return {file - 1, height - rank};
-}
-
-std::pair<int, int> MatrixBoard::notationToIndex(const std::pair<int, int>& notation) const{
-    return notationToIndex(notation.first, notation.second);
-}
-
 int MatrixBoard::getWidth() const{
     return width;
 }
@@ -146,40 +128,28 @@ std::pair<int, int> MatrixBoard::getSize() const{
     return {height, width};
 }
 
-bool MatrixBoard::isExist(int file, int rank) const{
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+bool MatrixBoard::isExist(const Position& position) const{
+    std::pair<int, int> indexes = position.toIndex(height);
     return board[indexes.first][indexes.second].isExist();
 }
 
-bool MatrixBoard::isExist(std::pair<int, int> position) const{
-    return isExist(position.first, position.second);
-}
-
-bool MatrixBoard::isEmpty(int file, int rank) const{
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+bool MatrixBoard::isEmpty(const Position& position) const{
+    std::pair<int, int> indexes = position.toIndex(height);
     return board[indexes.first][indexes.second].isEmpty();
 }
 
-bool MatrixBoard::isEmpty(std::pair<int, int> position) const{
-    return isEmpty(position.first, position.second);
-}
-
-std::optional<Piece> MatrixBoard::getAt(int file, int rank) const{
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+std::optional<Piece> MatrixBoard::getAt(const Position& position) const{
+    std::pair<int, int> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist() || board[indexes.first][indexes.second].isEmpty())
         return std::nullopt;
     return std::optional(board[indexes.first][indexes.second].getPiece());
 }
 
-std::optional<Piece> MatrixBoard::getAt(std::pair<int, int> position) const{
-    return getAt(position.first, position.second);
-}
-
-MatrixBoard& MatrixBoard::setAt(int file, int rank, const Piece& piece){
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+MatrixBoard& MatrixBoard::setAt(const Position& position, const Piece& piece){
+    std::pair<int, int> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist()){
         std::stringstream errorMessage;
-        errorMessage << "(" << file << ", " << rank << ") square does not exist."; // TODO: map file to a letter for better output
+        errorMessage << "(" << position.getFile() << ", " << position.getRank() << ") square does not exist."; // TODO: map file to a letter for better output
         throw std::invalid_argument{errorMessage.str()};
     }
     board[indexes.first][indexes.second].setPiece(piece);
@@ -187,33 +157,21 @@ MatrixBoard& MatrixBoard::setAt(int file, int rank, const Piece& piece){
     return *this;
 }
 
-MatrixBoard& MatrixBoard::setAt(std::pair<int, int> position, const Piece& piece){
-    return setAt(position.first, position.second, piece);
-}
-
-MatrixBoard& MatrixBoard::clearAt(int file, int rank){
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+MatrixBoard& MatrixBoard::clearAt(const Position& position){
+    std::pair<int, int> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist()){
         std::stringstream errorMessage;
-        errorMessage << "(" << file << ", " << rank << ") square does not exist."; // TODO: map file to a letter for better output
+        errorMessage << "(" << position.getFile() << ", " << position.getRank() << ") square does not exist."; // TODO: map file to a letter for better output
         throw std::invalid_argument{errorMessage.str()};
     }
     board[indexes.first][indexes.second].setEmpty(true);
     return *this;
 }
 
-MatrixBoard& MatrixBoard::clearAt(std::pair<int, int> position){
-    return clearAt(position.first, position.second);
-}
-
-MatrixBoard& MatrixBoard::removeAt(int file, int rank){
-    std::pair<int, int> indexes = notationToIndex(file, rank);
+MatrixBoard& MatrixBoard::removeAt(const Position& position){
+    std::pair<int, int> indexes = position.toIndex(height);
     board[indexes.first][indexes.second].setExist(false);
     return *this;
-}
-
-MatrixBoard& MatrixBoard::removeAt(std::pair<int, int> position){
-    return removeAt(position.first, position.second);
 }
 
 MatrixBoard& MatrixBoard::clear(){

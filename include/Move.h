@@ -1,32 +1,28 @@
 #ifndef MOVE_H
 #define MOVE_H
 
-#include <utility> // For std::pair
 #include <optional>
+#include "Position.h"
 #include "Piece.h"
 
 class Move{
 private:
-    int startFile, startRank, endFile, endRank;
+    Position start, end;
     bool isEnPassantFlag, isPawnPromotionFlag;
     std::optional<Piece> promotionChoice;
     std::optional<Piece> movedPiece, capturedPiece;
 public:
-    Move(int startFile, int startRank, int endFile, int endRank,
-         bool isEnPassant, bool isPawnPromotion, const std::optional<Piece>& promotionChoice,
-         const std::optional<Piece>& movedPiece, const std::optional<Piece>& capturedPiece);
+    Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, 
+         const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
+         const std::optional<Piece>& capturedPiece);
     ~Move();
 
     Move& operator=(const Move& other);
     bool operator==(const Move& other) const;
     bool operator!=(const Move& other) const;
 
-    int getStartFile() const;
-    int getStartRank() const;
-    int getEndFile() const;
-    int getEndRank() const;
-    std::pair<int, int> getStart() const;
-    std::pair<int, int> getEnd() const;
+    Position getStart() const;
+    Position getEnd() const;
 
     bool isEnPassant() const;
     bool isPawnPromotion() const;

@@ -5,6 +5,20 @@
 #include "IChessBoard.h"
 #include "FEN.h"
 
+/*
+Add boundary check for positions:
+if (file < 1 || file > width){
+    std::stringstream errorMessage;
+    errorMessage << "File is out of range: " << file;
+    throw std::out_of_range{errorMessage.str()};
+}
+if (rank < 1 || rank > height){
+    std::stringstream errorMessage;
+    errorMessage << "Rank is out of range: " << rank;
+    throw std::out_of_range{errorMessage.str()};
+}
+*/
+
 class MatrixBoard : public IChessBoard{
 private:
     class Square{
@@ -29,9 +43,6 @@ private:
 private:
     std::vector<std::vector<Square>> board;
     int width, height;
-    // notationToIndex responsible for checking if given file and rank are valid.
-    std::pair<int, int> notationToIndex(int file, int rank) const;
-    std::pair<int, int> notationToIndex(const std::pair<int, int>& notation) const;
 public:
     MatrixBoard(int height=8, int width=8);
     MatrixBoard(const FEN& FEN);
@@ -49,19 +60,13 @@ public:
     int getHeight() const override;
     std::pair<int, int> getSize() const override;
 
-    bool isExist(int file, int rank) const override;
-    bool isExist(std::pair<int, int> position) const override;
-    bool isEmpty(int file, int rank) const override;
-    bool isEmpty(std::pair<int, int> position) const override;
-    std::optional<Piece> getAt(int file, int rank) const override;
-    std::optional<Piece> getAt(std::pair<int, int> position) const override;
+    bool isExist(const Position& position) const override;
+    bool isEmpty(const Position& position) const override;
+    std::optional<Piece> getAt(const Position& position) const override;
 
-    MatrixBoard& setAt(int file, int rank, const Piece& piece) override;
-    MatrixBoard& setAt(std::pair<int, int> position, const Piece& piece) override;
-    MatrixBoard& clearAt(int file, int rank) override;
-    MatrixBoard& clearAt(std::pair<int, int> position) override;
-    MatrixBoard& removeAt(int file, int rank) override;
-    MatrixBoard& removeAt(std::pair<int, int> position) override;
+    MatrixBoard& setAt(const Position& position, const Piece& piece) override;
+    MatrixBoard& clearAt(const Position& position) override;
+    MatrixBoard& removeAt(const Position& position) override;
     MatrixBoard& clear() override;
 
     MatrixBoard& fromFEN(const FEN& FEN) override;
