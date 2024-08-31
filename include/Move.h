@@ -6,15 +6,15 @@
 #include "Position.h"
 #include "Piece.h"
 
-class Move{
+class Move{ // TODO: .getNotation()
 private:
     Position start, end;
-    bool isEnPassantFlag, isPawnPromotionFlag;
+    bool isEnPassantFlag, isPawnPromotionFlag, isCastlingFlag;
     std::optional<Piece> promotionChoice;
     std::optional<Piece> movedPiece, capturedPiece;
     std::unordered_set<int> castlingRemovals;
 public:
-    Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, 
+    Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, bool isCastling,
          const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
          const std::optional<Piece>& capturedPiece, const std::unordered_set<int>& castlingRemovals);
     ~Move();
@@ -36,6 +36,7 @@ public:
     bool hasMovedPiece() const;
 
     std::unordered_set<int> getCastlingRemovals() const;
+    bool isCastling() const;
 };
 
 namespace std {
