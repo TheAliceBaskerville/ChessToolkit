@@ -12,6 +12,7 @@ public:
         COUNT
     };
 
+    // TODO: refactor into Advanced status instead
     enum class VictoryType{ // TODO: think about better way to express someone's victory
         CHECKMATE,
         RESIGNATION,
