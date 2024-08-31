@@ -18,8 +18,10 @@ Move& Move::operator=(const Move& other){
     end = other.end;
     isEnPassantFlag = other.isEnPassantFlag;
     isPawnPromotionFlag = other.isPawnPromotionFlag;
+    isCastlingFlag = other.isCastlingFlag;
     movedPiece = other.movedPiece;
     capturedPiece = other.capturedPiece;
+    castlingRemovals = other.castlingRemovals;
 
     return *this;
 }
@@ -29,8 +31,10 @@ bool Move::operator==(const Move& other) const{
            end == other.end &&
            isEnPassantFlag == other.isEnPassantFlag &&
            isPawnPromotionFlag == other.isPawnPromotionFlag &&
+           isCastlingFlag == other.isCastlingFlag &&
            movedPiece == other.movedPiece &&
-           capturedPiece == other.capturedPiece);
+           capturedPiece == other.capturedPiece &&
+           castlingRemovals == other.castlingRemovals);
 }
 
 bool Move::operator!=(const Move& other) const{
