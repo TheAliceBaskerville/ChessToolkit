@@ -7,7 +7,7 @@
 
 class CastlingRights{
 private:
-    std::map<Color, std::unordered_set<int>> castlingFiles;
+    std::map<Color, std::unordered_set<int>> castlingFiles; // TODO: thing about unordered_map
 public:
     CastlingRights();
     // Think about constructing from string

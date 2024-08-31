@@ -1,6 +1,7 @@
 #ifndef MOVE_H
 #define MOVE_H
 
+#include <unordered_set>
 #include <optional>
 #include "Position.h"
 #include "Piece.h"
@@ -11,10 +12,11 @@ private:
     bool isEnPassantFlag, isPawnPromotionFlag;
     std::optional<Piece> promotionChoice;
     std::optional<Piece> movedPiece, capturedPiece;
+    std::unordered_set<int> castlingRemovals;
 public:
     Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, 
          const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
-         const std::optional<Piece>& capturedPiece);
+         const std::optional<Piece>& capturedPiece, const std::unordered_set<int>& castlingRemovals);
     ~Move();
 
     Move& operator=(const Move& other);
@@ -32,6 +34,8 @@ public:
     std::optional<Piece> getCapturedPiece() const;
     bool isCapture() const;
     bool hasMovedPiece() const;
+
+    std::unordered_set<int> getCastlingRemovals() const;
 };
 
 namespace std {
