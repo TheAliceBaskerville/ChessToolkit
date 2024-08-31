@@ -29,7 +29,7 @@ CastlingRights& CastlingRights::remove(Color side, int file){
     return *this;
 }
 
-CastlingRights& CastlingRights::set(Color side, std::unordered_set<int> rights){
+CastlingRights& CastlingRights::set(Color side, const std::unordered_set<int>& rights){
     castlingFiles.at(side) = rights;
     return *this;
 }

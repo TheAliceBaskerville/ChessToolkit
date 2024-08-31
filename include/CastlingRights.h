@@ -17,7 +17,7 @@ public:
     bool isPossible(Color side) const;
     CastlingRights& add(Color side, int file);
     CastlingRights& remove(Color side, int file);
-    CastlingRights& set(Color side, std::unordered_set<int> rights);
+    CastlingRights& set(Color side, const std::unordered_set<int>& rights);
     CastlingRights& reset(Color side);
     CastlingRights& reset();
 };
