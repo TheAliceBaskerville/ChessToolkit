@@ -46,12 +46,22 @@ namespace std {
             std::size_t hashStart{std::hash<Position>()(move.getStart())};
             std::size_t hashEnd{std::hash<Position>()(move.getEnd())};
             std::size_t hashEnPassant{std::hash<bool>()(move.isEnPassant())};
+            std::size_t hashCastling{std::hash<bool>()(move.isCastling())};
             std::size_t hashPawnPromotion{std::hash<bool>()(move.isPawnPromotion())};
+            std::size_t hashPromotionChoice{std::hash<std::optional<Piece>>()(move.getPromotionChoice())};
             std::size_t hashMovedPiece{std::hash<std::optional<Piece>>()(move.getMovedPiece())};
             std::size_t hashCapturedPiece{std::hash<std::optional<Piece>>()(move.getCapturedPiece())};
 
-            return hashStart ^ (hashEnd << 1) ^ (hashEnPassant << 2) ^ 
-                   (hashPawnPromotion << 3) ^ (hashMovedPiece << 4) ^ (hashCapturedPiece << 5);
+            // "XOR and mix" for std::unordered_set<int>
+            std::size_t hashCastlingRemovals{0};
+            for (const int& item : move.getCastlingRemovals()) {
+                hashCastlingRemovals ^= std::hash<int>()(item) + 0x9e3779b9 + // "Golden ratio" of int32
+                                        (hashCastlingRemovals << 6) + (hashCastlingRemovals >> 2);
+            }
+
+            return hashStart ^ (hashEnd << 1) ^ (hashEnPassant << 2) ^ (hashCastling << 3) ^
+                   (hashPawnPromotion << 4) ^ (hashPromotionChoice << 5) ^ (hashMovedPiece << 6) ^
+                   (hashCapturedPiece << 7) ^ (hashCastlingRemovals << 8);
         }
     };
 }

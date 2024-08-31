@@ -41,7 +41,6 @@ bool Move::operator!=(const Move& other) const{
     return !(*this == other);
 }
 
-
 Position Move::getStart() const{
     return start;
 }
