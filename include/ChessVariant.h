@@ -1,6 +1,9 @@
 #ifndef CHESSVARIANT_H
 #define CHESSVARIANT_H
 
+#include <stdexcept>
+#include <string>
+
 enum class ChessVariant{
     CLASSIC,
     CHESS960,
@@ -17,9 +20,9 @@ namespace EnumConverter {
             case ChessVariant::MADHOUSE: return "MADHOUSE";
             case ChessVariant::ATOMIC:   return "ATOMIC";
             case ChessVariant::COUNT:    return "COUNT";
-            default: throw std::out_of_range{"Unexpected variant given."}; // TODO: think on better error message
+            default: throw std::out_of_range{"Unexpected ChessVariant given."};
         }
     }
-};
+}
 
 #endif

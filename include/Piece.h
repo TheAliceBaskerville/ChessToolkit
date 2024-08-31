@@ -2,6 +2,8 @@
 #define PIECE_H
 
 #include <functional> // For std::hash
+#include <stdexcept>
+#include <string>
 #include "Color.h"
 
 enum class PieceType{
@@ -43,6 +45,21 @@ namespace std {
             return hashType ^ (hashColor << 1);
         }
     };
+}
+
+namespace EnumConverter{
+    inline std::string toString(PieceType pieceType){
+        switch (pieceType) {
+            case PieceType::PAWN:   return "PAWN";
+            case PieceType::KNIGHT: return "KNIGHT";
+            case PieceType::BISHOP: return "BISHOP";
+            case PieceType::ROOK:   return "ROOK";
+            case PieceType::QUEEN:  return "QUEEN";
+            case PieceType::KING:   return "KING";
+            case PieceType::COUNT:  return "COUNT";
+            default: throw std::out_of_range{"Unexpected PieceType given."};
+        }
+    }
 }
 
 #endif
