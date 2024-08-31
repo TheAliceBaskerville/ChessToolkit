@@ -1,50 +1,51 @@
 #include "GameResult.h"
+#include <stdexcept>
 
-GameResult::GameResult() : status{GameResult::Status::ONGOING}, statusType{std::monostate{}}{}
-GameResult::GameResult(VictoryType type) : status{GameResult::Status::VICTORY}, statusType{type}{}
-GameResult::GameResult(DrawType type) : status{GameResult::Status::DRAW}, statusType{type}{}
-GameResult::~GameResult(){}
+Status GameStatus::getFromDetailed(DetailedStatus detailedStatus){
+    switch (detailedStatus) {
+        case DetailedStatus::ONGOING:
+            return Status::ONGOING;
+        case DetailedStatus::CHECKMATE:
+            return Status::VICTORY;
+        case DetailedStatus::STALEMATE:
+        case DetailedStatus::THREEFOLD_REPETITION:
+        case DetailedStatus::INSUFFICIENT_MATERIAL:
+        case DetailedStatus::FIFTY_MOVES_RULE:
+            return Status::DRAW;
+        default:
+            throw std::invalid_argument{"Unexpected DetailedStatus given."};
+    }
+}
 
-GameResult::Status GameResult::getStatus() const{
+GameStatus::GameStatus(DetailedStatus detailedStatus) 
+    : detailedStatus{detailedStatus}, status{getFromDetailed(detailedStatus)}{}
+
+GameStatus::~GameStatus(){}
+
+GameStatus& GameStatus::operator=(const GameStatus& other){
+    detailedStatus = other.detailedStatus;
+    status = other.status;
+    return *this;
+}
+
+bool GameStatus::operator==(const GameStatus& other) const{
+    return (detailedStatus == other.detailedStatus);
+}
+
+bool GameStatus::operator!=(const GameStatus& other) const{
+    return !(*this==other);
+}
+
+Status GameStatus::getStatus() const{
     return status;
 }
 
-GameResult& GameResult::operator=(const GameResult& other){
-    if (this == &other){
-        return *this;
-    }
-
-    status = other.status;
-    statusType = other.statusType;
-    return *this;
+DetailedStatus GameStatus::getDetailedType() const{
+    return detailedStatus;
 }
 
-bool GameResult::operator==(const GameResult& other) const{
-    return (this->statusType == other.statusType);
-}
-
-bool GameResult::operator!=(const GameResult& other) const{
-    return !(*this == other);
-}
-
-std::variant<GameResult::VictoryType, GameResult::DrawType, std::monostate> GameResult::getStatusType() const{
-    return statusType;
-}
-
-GameResult& GameResult::setOngoing(){
-    statusType = std::monostate{};
-    status = GameResult::Status::ONGOING;
-    return *this;
-}
-    
-GameResult& GameResult::setStatusType(GameResult::VictoryType type){
-    statusType = type;
-    status = GameResult::Status::VICTORY;
-    return *this;
-}
-    
-GameResult& GameResult::setStatusType(GameResult::DrawType type){
-    statusType = type;
-    status = GameResult::Status::DRAW;
+GameStatus& GameStatus::setStatus(DetailedStatus newStatus){
+    detailedStatus = newStatus;
+    status = getFromDetailed(newStatus);
     return *this;
 }

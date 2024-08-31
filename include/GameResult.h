@@ -1,51 +1,40 @@
-#ifndef GAMERESULT_H
-#define GAMERESULT_H
+#ifndef GAMESTATUS_H
+#define GAMESTATUS_H
 
-#include <variant>
+enum class Status{
+    ONGOING,
+    VICTORY,
+    DRAW,
+    COUNT
+};
 
-class GameResult{
-public:
-    enum class Status{
-        ONGOING,
-        VICTORY,
-        DRAW,
-        COUNT
-    };
+enum class DetailedStatus{
+    ONGOING,
+    CHECKMATE,
+    STALEMATE,
+    THREEFOLD_REPETITION,
+    INSUFFICIENT_MATERIAL,
+    FIFTY_MOVES_RULE,
+    COUNT
+};
 
-    // TODO: refactor into Advanced status instead
-    enum class VictoryType{ // TODO: think about better way to express someone's victory
-        CHECKMATE,
-        RESIGNATION,
-        TIMEOUT,
-        COUNT
-    };
-
-    enum class DrawType{
-        STALEMATE,
-        THREEFOLD_REPETITION,
-        INSUFFICIENT_MATERIAL,
-        FIFTY_MOVES_RULES,
-        COUNT
-    };
+class GameStatus{
 private:
     Status status;
-    std::variant<VictoryType, DrawType, std::monostate> statusType;
+    DetailedStatus detailedStatus;
+    Status getFromDetailed(DetailedStatus detailedStatus);
 public:
-    GameResult();
-    GameResult(VictoryType type);
-    GameResult(DrawType draw);
-    ~GameResult();
+    GameStatus(DetailedStatus detailedStatus);
+    ~GameStatus();
 
-    GameResult& operator=(const GameResult& other);
-    bool operator==(const GameResult& other) const;
-    bool operator!=(const GameResult& other) const;
+    GameStatus& operator=(const GameStatus& other);
+    bool operator==(const GameStatus& other) const;
+    bool operator!=(const GameStatus& other) const;
 
     Status getStatus() const;
-    std::variant<VictoryType, DrawType, std::monostate> getStatusType() const;
+    DetailedStatus getDetailedType() const;
 
-    GameResult& setOngoing();
-    GameResult& setStatusType(VictoryType type);
-    GameResult& setStatusType(DrawType type);
+    GameStatus& setStatus(DetailedStatus newStatus);
 };
 
 #endif
