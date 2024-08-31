@@ -5,6 +5,8 @@ CastlingRights::CastlingRights(){
     castlingFiles[Color::BLACK] = {};
 }
 
+CastlingRights::~CastlingRights(){}
+
 bool CastlingRights::at(Color side, int file) const{
     return (castlingFiles.at(side).count(file) != 0); 
 }

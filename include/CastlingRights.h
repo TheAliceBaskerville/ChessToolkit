@@ -2,15 +2,15 @@
 #define CASTLINGRIGHTS_H
 
 #include <unordered_set>
-#include <map>
+#include <unordered_map>
 #include "Color.h"
 
 class CastlingRights{
 private:
-    std::map<Color, std::unordered_set<int>> castlingFiles; // TODO: thing about unordered_map
+    std::unordered_map<Color, std::unordered_set<int>> castlingFiles;
 public:
     CastlingRights();
-    // Think about constructing from string
+    ~CastlingRights();
 
     bool at(Color side, int file) const;
     std::unordered_set<int> get(Color side) const;
