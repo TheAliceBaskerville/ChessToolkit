@@ -1,6 +1,7 @@
 #ifndef POSITION_H
 #define POSITION_H
 
+#include <functional> // For std::hash
 #include <utility> // For std::pair
 
 class Position{
@@ -30,5 +31,17 @@ public:
     Position offset(int fileOffset, int rankOffset) const;
     Position offset(const std::pair<int, int>& offset) const;
 };
+
+namespace std {
+    template<>
+    struct hash<Position> {
+        std::size_t operator()(const Position& position) const {
+            std::size_t hashFile{std::hash<int>()(position.getFile())};
+            std::size_t hashRank{std::hash<int>()(position.getRank())};
+
+            return hashFile ^ (hashRank << 1);
+        }
+    };
+}
 
 #endif

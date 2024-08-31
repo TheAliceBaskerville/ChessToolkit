@@ -34,4 +34,21 @@ public:
     bool hasMovedPiece() const;
 };
 
+namespace std {
+    template<>
+    struct hash<Move> {
+        std::size_t operator()(const Move& move) const {
+            std::size_t hashStart{std::hash<Position>()(move.getStart())};
+            std::size_t hashEnd{std::hash<Position>()(move.getEnd())};
+            std::size_t hashEnPassant{std::hash<bool>()(move.isEnPassant())};
+            std::size_t hashPawnPromotion{std::hash<bool>()(move.isPawnPromotion())};
+            std::size_t hashMovedPiece{std::hash<std::optional<Piece>>()(move.getMovedPiece())};
+            std::size_t hashCapturedPiece{std::hash<std::optional<Piece>>()(move.getCapturedPiece())};
+
+            return hashStart ^ (hashEnd << 1) ^ (hashEnPassant << 2) ^ 
+                   (hashPawnPromotion << 3) ^ (hashMovedPiece << 4) ^ (hashCapturedPiece << 5);
+        }
+    };
+}
+
 #endif
