@@ -5,36 +5,40 @@ CastlingRights::CastlingRights(){
     castlingFiles[Color::BLACK] = {};
 }
 
-bool CastlingRights::at(Color color, int file) const{
-    return castlingFiles.at(color).find(file) != castlingFiles.at(color).end(); 
+bool CastlingRights::at(Color side, int file) const{
+    return (castlingFiles.at(side).count(file) != 0); 
 }
 
-bool CastlingRights::isPossible(Color color) const{
-    return !castlingFiles.at(color).empty();
+std::unordered_set<int> CastlingRights::get(Color side) const{
+    return castlingFiles.at(side);
 }
 
-CastlingRights& CastlingRights::add(Color color, int file){
-    castlingFiles.at(color).insert(file);
+bool CastlingRights::isPossible(Color side) const{
+    return !castlingFiles.at(side).empty();
+}
+
+CastlingRights& CastlingRights::add(Color side, int file){
+    castlingFiles.at(side).insert(file);
     return *this;
 }
 
-CastlingRights& CastlingRights::remove(Color color, int file){
-    castlingFiles.at(color).erase(file);
+CastlingRights& CastlingRights::remove(Color side, int file){
+    castlingFiles.at(side).erase(file);
     return *this;
 }
 
-CastlingRights& CastlingRights::set(Color color, std::unordered_set<int> rights){
-    castlingFiles.at(color) = rights;
+CastlingRights& CastlingRights::set(Color side, std::unordered_set<int> rights){
+    castlingFiles.at(side) = rights;
     return *this;
 }
 
-CastlingRights& CastlingRights::reset(Color color){
-    castlingFiles.at(color) = {};
+CastlingRights& CastlingRights::reset(Color side){
+    castlingFiles.at(side) = {};
     return *this;
 }
 
 CastlingRights& CastlingRights::reset(){
-    for (auto& [color, files] : castlingFiles){
+    for (auto& [side, files] : castlingFiles){
         files = {};
     }
     return *this;

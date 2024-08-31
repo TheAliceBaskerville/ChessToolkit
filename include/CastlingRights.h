@@ -12,12 +12,13 @@ public:
     CastlingRights();
     // Think about constructing from string
 
-    bool at(Color color, int file) const;
-    bool isPossible(Color color) const;
-    CastlingRights& add(Color color, int file);
-    CastlingRights& remove(Color color, int file);
-    CastlingRights& set(Color color, std::unordered_set<int> rights);
-    CastlingRights& reset(Color color);
+    bool at(Color side, int file) const;
+    std::unordered_set<int> get(Color side) const;
+    bool isPossible(Color side) const;
+    CastlingRights& add(Color side, int file);
+    CastlingRights& remove(Color side, int file);
+    CastlingRights& set(Color side, std::unordered_set<int> rights);
+    CastlingRights& reset(Color side);
     CastlingRights& reset();
 };
 
