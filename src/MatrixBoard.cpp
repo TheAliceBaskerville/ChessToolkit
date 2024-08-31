@@ -1,6 +1,6 @@
 #include <utility> // For std::move()
 #include <stdexcept>
-#include <sstream> // For string formatting
+#include <sstream>
 #include "MatrixBoard.h"
 
 MatrixBoard::Square::Square(bool isExist) : 

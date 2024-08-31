@@ -1,8 +1,8 @@
-#include "GameResult.h"
 #include <stdexcept>
+#include "GameStatus.h"
 
-Status GameStatus::getFromDetailed(DetailedStatus detailedStatus){
-    switch (detailedStatus) {
+Status GameStatus::getFromDetailed(DetailedStatus status) const{
+    switch (status) {
         case DetailedStatus::ONGOING:
             return Status::ONGOING;
         case DetailedStatus::CHECKMATE:
@@ -17,19 +17,17 @@ Status GameStatus::getFromDetailed(DetailedStatus detailedStatus){
     }
 }
 
-GameStatus::GameStatus(DetailedStatus detailedStatus) 
-    : detailedStatus{detailedStatus}, status{getFromDetailed(detailedStatus)}{}
+GameStatus::GameStatus(DetailedStatus status) : status{status}{}
 
 GameStatus::~GameStatus(){}
 
 GameStatus& GameStatus::operator=(const GameStatus& other){
-    detailedStatus = other.detailedStatus;
     status = other.status;
     return *this;
 }
 
 bool GameStatus::operator==(const GameStatus& other) const{
-    return (detailedStatus == other.detailedStatus);
+    return (status == other.status);
 }
 
 bool GameStatus::operator!=(const GameStatus& other) const{
@@ -37,15 +35,14 @@ bool GameStatus::operator!=(const GameStatus& other) const{
 }
 
 Status GameStatus::getStatus() const{
-    return status;
+    return getFromDetailed(status);
 }
 
 DetailedStatus GameStatus::getDetailedType() const{
-    return detailedStatus;
+    return status;
 }
 
 GameStatus& GameStatus::setStatus(DetailedStatus newStatus){
-    detailedStatus = newStatus;
-    status = getFromDetailed(newStatus);
+    status = newStatus;
     return *this;
 }

@@ -3,7 +3,6 @@
 
 #include <optional>
 #include <string>
-#include <utility> // For std::pair
 #include "Position.h"
 #include "Piece.h"
 #include "FEN.h"
