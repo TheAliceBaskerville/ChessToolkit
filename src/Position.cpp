@@ -1,12 +1,14 @@
+#include <stdexcept>
+#include <sstream>
 #include "Position.h"
 
-Position::Position(int file, int rank) : file{file}, rank{rank}{}
+Position::Position(std::size_t file, std::size_t rank) : file{file}, rank{rank}{}
 
-Position::Position(const std::pair<int, int>& pair) : file{pair.first}, rank{pair.second}{}
+Position::Position(const std::pair<std::size_t, std::size_t>& pair) : file{pair.first}, rank{pair.second}{}
 
-Position::Position(int boardHeight, int row, int column) : file{column + 1}, rank{boardHeight - row}{}
+Position::Position(std::size_t boardHeight, std::size_t row, std::size_t column) : file{column + 1}, rank{boardHeight - row}{}
 
-Position::Position(int boardHeight, const std::pair<int, int>& indexes) 
+Position::Position(std::size_t boardHeight, const std::pair<std::size_t, std::size_t>& indexes) 
     : file{indexes.second + 1}, rank{boardHeight - indexes.first}{}
 
 Position::Position(const Position& other) : file{other.file}, rank{other.rank}{}
@@ -27,40 +29,51 @@ bool Position::operator!=(const Position& other) const{
     return !(*this==other);
 }
 
-int Position::getFile() const{
+std::size_t Position::getFile() const{
     return file;
 }
 
-int Position::getRank() const{
+std::size_t Position::getRank() const{
     return rank;
 }
 
-std::pair<int, int> Position::getPair() const{
+std::pair<std::size_t, std::size_t> Position::getPair() const{
     return std::make_pair(file, rank);
 }
 
-Position& Position::setFile(int file){
+Position& Position::setFile(std::size_t file){
     this->file = file;
     return *this;
 }
 
-Position& Position::setRank(int rank){
+Position& Position::setRank(std::size_t rank){
     this->rank = rank;
     return *this;
 }
 
-Position& Position::setPair(const std::pair<int, int>& pair){
+Position& Position::setPair(const std::pair<std::size_t, std::size_t>& pair){
     file = pair.first;
     rank = pair.second;
     return *this;
 }
 
-std::pair<int, int> Position::toIndex(int boardHeight) const{
+std::pair<std::size_t, std::size_t> Position::toIndex(std::size_t boardHeight) const{
     return std::make_pair(boardHeight - rank, file - 1);
 }
 
 Position Position::offset(int fileOffset, int rankOffset) const{
-    return Position{file + fileOffset, rank + rankOffset};
+    int newFile{static_cast<int>(file) + fileOffset}, newRank{static_cast<int>(rank) + rankOffset};
+    if (newFile < 0) {
+        std::stringstream errorMessage;
+        errorMessage << "File offset results in a negative rank index: " << newFile;
+        throw std::out_of_range{errorMessage.str()};
+    }
+    if (newRank < 0) {
+        std::stringstream errorMessage;
+        errorMessage << "Rank offset results in a negative rank index: " << newRank;
+        throw std::out_of_range{errorMessage.str()};
+    }
+    return Position{static_cast<std::size_t>(newFile), static_cast<std::size_t>(newRank)};
 }
 
 Position Position::offset(const std::pair<int, int>& offset) const{

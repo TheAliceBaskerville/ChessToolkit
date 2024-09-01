@@ -12,11 +12,11 @@ private:
     bool isEnPassantFlag, isPawnPromotionFlag, isCastlingFlag;
     std::optional<Piece> promotionChoice;
     std::optional<Piece> movedPiece, capturedPiece;
-    std::unordered_set<int> castlingRemovals;
+    std::unordered_set<std::size_t> castlingRemovals;
 public:
     Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, bool isCastling,
          const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
-         const std::optional<Piece>& capturedPiece, const std::unordered_set<int>& castlingRemovals);
+         const std::optional<Piece>& capturedPiece, const std::unordered_set<std::size_t>& castlingRemovals);
     Move(const Move& other);
     Move(Move&& other);
     ~Move();
@@ -38,7 +38,7 @@ public:
     bool isCapture() const;
     bool hasMovedPiece() const;
 
-    std::unordered_set<int> getCastlingRemovals() const;
+    std::unordered_set<std::size_t> getCastlingRemovals() const;
     bool isCastling() const;
 };
 
@@ -65,10 +65,10 @@ namespace std {
                 hashCapturedPiece = std::hash<Piece>()(move.getCapturedPiece().value());
             }
 
-            // "XOR and mix" for std::unordered_set<int>
+            // "XOR and mix" for std::unordered_set<std::size_t>
             std::size_t hashCastlingRemovals{0};
-            for (const int& item : move.getCastlingRemovals()) {
-                hashCastlingRemovals ^= std::hash<int>()(item) + 0x9e3779b9 + // "Golden ratio" of int32
+            for (const std::size_t& item : move.getCastlingRemovals()) {
+                hashCastlingRemovals ^= std::hash<std::size_t>()(item) + 0x9e3779b9 + // "Golden ratio"
                                         (hashCastlingRemovals << 6) + (hashCastlingRemovals >> 2);
             }
 

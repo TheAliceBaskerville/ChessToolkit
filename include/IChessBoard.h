@@ -7,14 +7,13 @@
 #include "Piece.h"
 #include "FEN.h"
 
-// All of it's methods accepts file and rank in chess notation.
 class IChessBoard{ // TODO: think on adding iterators for it.
 public:
     virtual ~IChessBoard() = default;
 
-    virtual int getWidth() const = 0;
-    virtual int getHeight() const = 0;
-    virtual std::pair<int, int> getSize() const = 0;
+    virtual std::size_t getWidth() const = 0;
+    virtual std::size_t getHeight() const = 0;
+    virtual std::pair<std::size_t, std::size_t> getSize() const = 0;
 
     virtual bool isExist(const Position& position) const = 0;
     virtual bool isEmpty(const Position& position) const = 0;

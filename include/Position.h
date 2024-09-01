@@ -6,12 +6,12 @@
 
 class Position{
 private:
-    int file, rank;
+    std::size_t file, rank;
 public:
-    Position(int file=0, int rank=0);
-    Position(const std::pair<int, int>& pair);
-    Position(int boardHeight, int row, int column);
-    Position(int boardHeight, const std::pair<int, int>& indexes);
+    Position(std::size_t file=0, std::size_t rank=0);
+    Position(const std::pair<std::size_t, std::size_t>& pair);
+    Position(std::size_t boardHeight, std::size_t row, std::size_t column);
+    Position(std::size_t boardHeight, const std::pair<std::size_t, std::size_t>& indexes);
     Position(const Position& other);
     ~Position();
 
@@ -19,15 +19,15 @@ public:
     bool operator==(const Position& other) const;
     bool operator!=(const Position& other) const;
 
-    int getFile() const;
-    int getRank() const;
-    std::pair<int, int> getPair() const;
+    std::size_t getFile() const;
+    std::size_t getRank() const;
+    std::pair<std::size_t, std::size_t> getPair() const;
 
-    Position& setFile(int file);
-    Position& setRank(int rank);
-    Position& setPair(const std::pair<int, int>& pair);
+    Position& setFile(std::size_t file);
+    Position& setRank(std::size_t rank);
+    Position& setPair(const std::pair<std::size_t, std::size_t>& pair);
 
-    std::pair<int, int> toIndex(int boardHeight) const;
+    std::pair<std::size_t, std::size_t> toIndex(std::size_t boardHeight) const;
     Position offset(int fileOffset, int rankOffset) const;
     Position offset(const std::pair<int, int>& offset) const;
 };
@@ -36,8 +36,8 @@ namespace std {
     template<>
     struct hash<Position> {
         std::size_t operator()(const Position& position) const {
-            std::size_t hashFile{std::hash<int>()(position.getFile())};
-            std::size_t hashRank{std::hash<int>()(position.getRank())};
+            std::size_t hashFile{std::hash<std::size_t>()(position.getFile())};
+            std::size_t hashRank{std::hash<std::size_t>()(position.getRank())};
 
             return hashFile ^ (hashRank << 1);
         }

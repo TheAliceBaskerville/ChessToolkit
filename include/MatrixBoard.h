@@ -42,10 +42,10 @@ private:
         bool operator!=(const Square& other) const;
     };
 private:
+    std::size_t width, height;
     std::vector<std::vector<Square>> board;
-    int width, height;
 public:
-    MatrixBoard(int height=8, int width=8);
+    MatrixBoard(std::size_t height=8, std::size_t width=8);
     MatrixBoard(const FEN& FEN);
     MatrixBoard(const MatrixBoard& other);
     MatrixBoard(MatrixBoard&& other) noexcept;
@@ -57,9 +57,9 @@ public:
     bool operator==(const MatrixBoard& other) const;
     bool operator!=(const MatrixBoard& other) const;
 
-    int getWidth() const override;
-    int getHeight() const override;
-    std::pair<int, int> getSize() const override;
+    std::size_t getWidth() const override;
+    std::size_t getHeight() const override;
+    std::pair<std::size_t, std::size_t> getSize() const override;
 
     bool isExist(const Position& position) const override;
     bool isEmpty(const Position& position) const override;

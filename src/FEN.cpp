@@ -4,9 +4,9 @@
 #include <set>
 #include "FEN.h"
 
-FEN::FEN(int width, int height) : width{width}, height{height}{
+FEN::FEN(std::size_t width, std::size_t height) : width{width}, height{height}{
     std::stringstream result;
-    for (int rank{0}; rank < height; ++rank){
+    for (std::size_t rank{0}; rank < height; ++rank){
         if (rank > 0){
             result << "/";
         }
@@ -68,7 +68,7 @@ std::string FEN::joinFEN(const std::vector<std::string>& parts){
     return fenStream.str();
 }
 
-std::string FEN::getRank(int number) const{
+std::string FEN::getRank(std::size_t number) const{
     if (number < 1 || number > height){
         std::stringstream errorMessage;
         errorMessage << "Rank number out of range: " << number;
@@ -76,7 +76,7 @@ std::string FEN::getRank(int number) const{
     }
     std::stringstream fenStream{fen};
     std::string rankString;
-    for (int rank{0}; rank <= height - number; ++rank){
+    for (std::size_t rank{0}; rank <= height - number; ++rank){
         std::getline(fenStream, rankString, '/');
     }
     return rankString;
@@ -102,25 +102,25 @@ std::string FEN::getEnPassant() const{
     return parts[3];
 }
 
-int FEN::getHalfmovesNumber() const{
+std::size_t FEN::getHalfmovesNumber() const{
     std::vector<std::string> parts{splitFEN()};
-    return std::stoi(parts[4]);
+    return std::stoull(parts[4]);
 }
 
-int FEN::getFullmovesNumber() const{
+std::size_t FEN::getFullmovesNumber() const{
     std::vector<std::string> parts{splitFEN()};
-    return std::stoi(parts[5]);
+    return std::stoull(parts[5]);
 }
 
 bool FEN::isValid(const std::string& FENstring){ //TODO: normal automate implementation
     std::stringstream fenStream{FENstring};
     std::string fenBlock;
     std::getline(fenStream, fenBlock, ' '); // asquiring board itself
-    int slashPosition{fenBlock.find("/")};
+    std::size_t slashPosition{fenBlock.find("/")};
     if (slashPosition == std::string::npos){
         return false;
     }
-    int rankLength{0}, currentPosition{0};
+    std::size_t rankLength{0}, currentPosition{0};
     // while (currentPosition < slashPosition){
     //     switch (fenBlock[currentPosition])
     //     {
@@ -135,15 +135,15 @@ bool FEN::isValid(const std::string& FENstring){ //TODO: normal automate impleme
     return true;
 }
 
-FEN& FEN::setRank(int number, const std::string& rankString){
+FEN& FEN::setRank(std::size_t number, const std::string& rankString){
     if (number < 1 || number > height){
         std::stringstream errorMessage;
         errorMessage << "Rank number out of range: " << number;
         throw std::out_of_range{errorMessage.str()};
     }
     // TODO: add rankString valiadtion here
-    int index;
-    for (int count{0}; count < number; ++count){
+    std::size_t index;
+    for (std::size_t count{0}; count < number; ++count){
         index = fen.find("/");
     }
     fen.insert(index, rankString);
@@ -201,57 +201,57 @@ FEN& FEN::setEnPassant(const std::string& possibleEnPassantTarget){ // TODO: fin
     return *this;
 }
 
-FEN& FEN::setHalfmovesNumber(int halfmovesNumber){
+FEN& FEN::setHalfmovesNumber(std::size_t halfmovesNumber){
     return *this;
     // TODO: implement this one
 }
 
-FEN& FEN::setFullmovesNumber(int fullmovesNumber){
+FEN& FEN::setFullmovesNumber(std::size_t fullmovesNumber){
     return *this;
     // TODO: implement this one
 }
 
-int FEN::getWidth() const{
+std::size_t FEN::getWidth() const{
     return 8;
     // TODO: implement this one
 }
 
-int FEN::getHeight() const{
+std::size_t FEN::getHeight() const{
     return 8;
     // TODO: implement this one
 }
 
-std::pair<int, int> FEN::getSize() const{
+std::pair<std::size_t, std::size_t> FEN::getSize() const{
     return {8, 8};
     // TODO: implement this one
 }
 
-bool FEN::isExist(int file, int rank) const{
+bool FEN::isExist(const Position& position) const{
     return false;
     // TODO: implement this one
 }
 
-bool FEN::isEmpty(int file, int rank) const{
+bool FEN::isEmpty(const Position& position) const{
     return false;
     // TODO: implement this one
 }
 
-std::optional<Piece> FEN::getAt(int file, int rank) const{
+std::optional<Piece> FEN::getAt(const Position& position) const{
     return std::nullopt;
     // TODO: implement this one
 }
 
-FEN& FEN::setAt(int file, int rank, const Piece& piece){
+FEN& FEN::setAt(const Position& position, const Piece& piece){
     return *this;
     // TODO: implement this one
 }
 
-FEN& FEN::clearAt(int file, int rank){
+FEN& FEN::clearAt(const Position& position){
     return *this;
     // TODO: implement this one
 }
 
-FEN& FEN::removeAt(int file, int rank){
+FEN& FEN::removeAt(const Position& position){
     return *this;
     // TODO: implement this one
 }

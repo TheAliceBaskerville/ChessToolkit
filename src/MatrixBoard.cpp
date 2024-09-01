@@ -36,20 +36,10 @@ bool MatrixBoard::Square::operator==(const Square& other) const{
 }
 bool MatrixBoard::Square::operator!=(const Square& other) const{return !(*this==other);}
 
-MatrixBoard::MatrixBoard(int height, int width) : width{width}, height{height}{
-    if (width < 0){
-        std::stringstream errorMessage;
-        errorMessage << "Width is out of range, given: " << width;
-        throw std::out_of_range{errorMessage.str()};
-    }
-    if (height < 0){
-        std::stringstream errorMessage;
-        errorMessage << "Height is out of range, given: " << height;
-        throw std::out_of_range{errorMessage.str()};
-    }
+MatrixBoard::MatrixBoard(std::size_t height, std::size_t width) : width{width}, height{height}{
     board.resize(height, std::vector<Square>(width, Square(true)));
-    for (int rank{0}; rank < height; ++rank){
-        for (int file{0}; file < width; ++file){
+    for (std::size_t rank{0}; rank < height; ++rank){
+        for (std::size_t file{0}; file < width; ++file){
             board[rank][file] = Square(true);
         }
     }
@@ -60,8 +50,8 @@ MatrixBoard::MatrixBoard(const FEN& FEN){
 }
 
 MatrixBoard::MatrixBoard(const MatrixBoard& other)
-    : width{other.width}, height{other.height}, board{other.width, std::vector<Square>{other.height}}{
-    for (int rank{0}; rank < height; ++rank) {
+    : width{other.width}, height{other.height}, board{other.height, std::vector<Square>(other.width)}{
+    for (std::size_t rank{0}; rank < height; ++rank) {
         std::copy(other.board[rank].begin(), other.board[rank].end(), board[rank].begin());
     }
 }
@@ -83,8 +73,8 @@ MatrixBoard& MatrixBoard::operator=(const MatrixBoard& other){
         row.resize(other.width);
     }
 
-    for (int rank{0}; rank < height; ++rank){
-        for (int file{0}; file < width; ++file){
+    for (std::size_t rank{0}; rank < height; ++rank){
+        for (std::size_t file{0}; file < width; ++file){
             board[rank][file] = other.board[rank][file];
         }
     }
@@ -102,8 +92,8 @@ bool MatrixBoard::operator==(const MatrixBoard& other) const{
     if (width != other.width || height != other.height)
         return false;
 
-    for (int rank{0}; rank < height; ++rank){
-        for (int file{0}; file < width; ++file){
+    for (std::size_t rank{0}; rank < height; ++rank){
+        for (std::size_t file{0}; file < width; ++file){
             if (board[rank][file] != other.board[rank][file]){
                 return false;
             }
@@ -116,37 +106,37 @@ bool MatrixBoard::operator!=(const MatrixBoard& other) const{
     return !(*this == other);
 }
 
-int MatrixBoard::getWidth() const{
+std::size_t MatrixBoard::getWidth() const{
     return width;
 }
 
-int MatrixBoard::getHeight() const{
+std::size_t MatrixBoard::getHeight() const{
     return height;
 }
 
-std::pair<int, int> MatrixBoard::getSize() const{
+std::pair<std::size_t, std::size_t> MatrixBoard::getSize() const{
     return {height, width};
 }
 
 bool MatrixBoard::isExist(const Position& position) const{
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     return board[indexes.first][indexes.second].isExist();
 }
 
 bool MatrixBoard::isEmpty(const Position& position) const{
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     return board[indexes.first][indexes.second].isEmpty();
 }
 
 std::optional<Piece> MatrixBoard::getAt(const Position& position) const{
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist() || board[indexes.first][indexes.second].isEmpty())
         return std::nullopt;
     return std::optional(board[indexes.first][indexes.second].getPiece());
 }
 
 MatrixBoard& MatrixBoard::setAt(const Position& position, const Piece& piece){
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist()){
         std::stringstream errorMessage;
         errorMessage << "(" << position.getFile() << ", " << position.getRank() << ") square does not exist."; // TODO: map file to a letter for better output
@@ -158,7 +148,7 @@ MatrixBoard& MatrixBoard::setAt(const Position& position, const Piece& piece){
 }
 
 MatrixBoard& MatrixBoard::clearAt(const Position& position){
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     if (!board[indexes.first][indexes.second].isExist()){
         std::stringstream errorMessage;
         errorMessage << "(" << position.getFile() << ", " << position.getRank() << ") square does not exist."; // TODO: map file to a letter for better output
@@ -169,14 +159,14 @@ MatrixBoard& MatrixBoard::clearAt(const Position& position){
 }
 
 MatrixBoard& MatrixBoard::removeAt(const Position& position){
-    std::pair<int, int> indexes = position.toIndex(height);
+    std::pair<std::size_t, std::size_t> indexes = position.toIndex(height);
     board[indexes.first][indexes.second].setExist(false);
     return *this;
 }
 
 MatrixBoard& MatrixBoard::clear(){
-    for (int rank{0}; rank < height; ++rank){
-        for (int file{0}; file < width; ++file){
+    for (std::size_t rank{0}; rank < height; ++rank){
+        for (std::size_t file{0}; file < width; ++file){
             if (board[rank][file].isExist())
                 board[rank][file].setEmpty(true);
         }
@@ -198,20 +188,20 @@ MatrixBoard& MatrixBoard::fromFEN(const FEN& FEN){
     while (std::getline(FENboard, rank, '/')) {
         ranks.push_back(rank);
     }
-    for (int i{0}; i < ranks.size(); ++i){
-        int stringIndex{0}, boardIndex{0};
+    for (std::size_t i{0}; i < ranks.size(); ++i){
+        std::size_t stringIndex{0}, boardIndex{0};
         while (stringIndex < ranks[i].size()){
             if (std::isdigit(ranks[i][stringIndex])){
-                int emptySquares;
+                std::size_t emptySquares;
                 if (stringIndex + 1 < ranks[i].size() && std::isdigit(ranks[i][stringIndex + 1])){
-                    emptySquares = std::stoi(ranks[i].substr(stringIndex, 2));
+                    emptySquares = std::stoull(ranks[i].substr(stringIndex, 2));
                     ++stringIndex;
                 }
                 else{
-                    emptySquares = std::stoi(ranks[i].substr(stringIndex, 1));
+                    emptySquares = std::stoull(ranks[i].substr(stringIndex, 1));
                 }
                 ++stringIndex;
-                for (int j{0}; j < emptySquares; ++j){
+                for (std::size_t j{0}; j < emptySquares; ++j){
                     board[i][boardIndex] = Square(true);
                     ++boardIndex;
                 }
@@ -240,6 +230,7 @@ MatrixBoard& MatrixBoard::fromFEN(const FEN& FEN){
             }
         }
     }
+    return *this;
 }
 
 std::unique_ptr<IChessBoard> MatrixBoard::clone() const{

@@ -2,7 +2,7 @@
 
 Move::Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, bool isCastling,
            const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
-           const std::optional<Piece>& capturedPiece, const std::unordered_set<int>& castlingRemovals)
+           const std::optional<Piece>& capturedPiece, const std::unordered_set<std::size_t>& castlingRemovals)
            : start{start}, end{end}, isEnPassantFlag{isEnPassant}, isPawnPromotionFlag{isPawnPromotion},
            isCastlingFlag{isCastling}, promotionChoice{promotionChoice}, movedPiece{movedPiece},
            capturedPiece{capturedPiece}, castlingRemovals{castlingRemovals}{}
@@ -107,7 +107,7 @@ bool Move::hasMovedPiece() const{
     return movedPiece.has_value();
 }
 
-std::unordered_set<int> Move::getCastlingRemovals() const{
+std::unordered_set<std::size_t> Move::getCastlingRemovals() const{
     return castlingRemovals;
 }
 
