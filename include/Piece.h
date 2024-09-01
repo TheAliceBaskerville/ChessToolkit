@@ -18,13 +18,16 @@ enum class PieceType{
 
 class Piece{
 private:
-    PieceType type;
     Color color;
+    PieceType type;
 public:
     Piece(Color color, PieceType type);
+    Piece(const Piece& other);
+    Piece(Piece&& other);
     ~Piece();
 
     Piece& operator=(const Piece& other);
+    Piece& operator=(Piece&& other);
     bool operator==(const Piece& other) const;
     bool operator!=(const Piece& other) const;
 

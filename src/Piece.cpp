@@ -1,6 +1,8 @@
 #include "Piece.h"
 
 Piece::Piece(Color color, PieceType type) : color{color}, type{type}{}
+Piece::Piece(const Piece& other) : color{other.color}, type{other.type}{}
+Piece::Piece(Piece&& other) : color{std::move(other.color)}, type{std::move(other.type)}{}
 Piece::~Piece(){}
 
 Piece& Piece::operator=(const Piece& other){
@@ -10,6 +12,16 @@ Piece& Piece::operator=(const Piece& other){
 
     color = other.color;
     type = other.type;
+    return *this;
+}
+
+Piece& Piece::operator=(Piece&& other){
+    if (this == &other){
+        return *this;
+    }
+
+    color = std::move(other.color);
+    type = std::move(other.type);
     return *this;
 }
 
