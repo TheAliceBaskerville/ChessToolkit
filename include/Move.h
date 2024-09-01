@@ -17,9 +17,12 @@ public:
     Move(const Position& start, const Position& end, bool isEnPassant, bool isPawnPromotion, bool isCastling,
          const std::optional<Piece>& promotionChoice, const std::optional<Piece>& movedPiece,
          const std::optional<Piece>& capturedPiece, const std::unordered_set<int>& castlingRemovals);
+    Move(const Move& other);
+    Move(Move&& other);
     ~Move();
 
     Move& operator=(const Move& other);
+    Move& operator=(Move&& other);
     bool operator==(const Move& other) const;
     bool operator!=(const Move& other) const;
 
@@ -48,9 +51,19 @@ namespace std {
             std::size_t hashEnPassant{std::hash<bool>()(move.isEnPassant())};
             std::size_t hashCastling{std::hash<bool>()(move.isCastling())};
             std::size_t hashPawnPromotion{std::hash<bool>()(move.isPawnPromotion())};
-            std::size_t hashPromotionChoice{std::hash<std::optional<Piece>>()(move.getPromotionChoice())};
-            std::size_t hashMovedPiece{std::hash<std::optional<Piece>>()(move.getMovedPiece())};
-            std::size_t hashCapturedPiece{std::hash<std::optional<Piece>>()(move.getCapturedPiece())};
+
+            std::size_t hashPromotionChoice{0};
+            if (move.isPawnPromotion()){
+                hashPromotionChoice = std::hash<Piece>()(move.getPromotionChoice().value());
+            }
+            std::size_t hashMovedPiece{0};
+            if (move.hasMovedPiece()){
+                hashMovedPiece = std::hash<Piece>()(move.getMovedPiece().value());
+            }
+            std::size_t hashCapturedPiece{0};
+            if (move.isCapture()){
+                hashCapturedPiece = std::hash<Piece>()(move.getCapturedPiece().value());
+            }
 
             // "XOR and mix" for std::unordered_set<int>
             std::size_t hashCastlingRemovals{0};
