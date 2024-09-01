@@ -6,7 +6,14 @@ Position::Position(std::size_t file, std::size_t rank) : file{file}, rank{rank}{
 
 Position::Position(const std::pair<std::size_t, std::size_t>& pair) : file{pair.first}, rank{pair.second}{}
 
-Position::Position(std::size_t boardHeight, std::size_t row, std::size_t column) : file{column + 1}, rank{boardHeight - row}{}
+Position::Position(std::size_t boardHeight, std::size_t row, std::size_t column) : file{column + 1}{
+    if (boardHeight - row < 1){
+        std::stringstream errorMessage;
+        errorMessage << "Index out of range: (" << row << ", " << column << "), given boardHeight = " << boardHeight;
+        throw std::out_of_range{errorMessage.str()};
+    }
+    rank = boardHeight - row;
+}
 
 Position::Position(std::size_t boardHeight, const std::pair<std::size_t, std::size_t>& indexes) 
     : file{indexes.second + 1}, rank{boardHeight - indexes.first}{}
