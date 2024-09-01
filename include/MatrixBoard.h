@@ -1,6 +1,7 @@
 #ifndef MATRIXBOARD_H
 #define MATRIXBOARD_H
 
+#include <memory>
 #include <vector>
 #include "IChessBoard.h"
 #include "FEN.h"
@@ -70,6 +71,8 @@ public:
     MatrixBoard& clear() override;
 
     MatrixBoard& fromFEN(const FEN& FEN) override;
+
+    std::unique_ptr<IChessBoard> clone() const override;
 };
 
 #endif

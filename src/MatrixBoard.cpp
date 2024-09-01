@@ -241,3 +241,7 @@ MatrixBoard& MatrixBoard::fromFEN(const FEN& FEN){
         }
     }
 }
+
+std::unique_ptr<IChessBoard> MatrixBoard::clone() const{
+    return std::make_unique<MatrixBoard>(*this);
+}

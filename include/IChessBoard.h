@@ -26,6 +26,8 @@ public:
     virtual IChessBoard& clear() = 0;
 
     virtual IChessBoard& fromFEN(const FEN& FEN) = 0;
+
+    virtual std::unique_ptr<IChessBoard> clone() const = 0;
 };
 
 #endif
