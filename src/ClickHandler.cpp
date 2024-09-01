@@ -9,18 +9,18 @@ ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanva
 
 ClickHandler::~ClickHandler() {}
 
-ClickHandler& ClickHandler::analyzeMouseInput(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event) {
+ClickHandler& ClickHandler::analyzeMouseInput(DrawingCanvas* canvas, sf::Event* event) {
     int squareSize = canvas->getSquareSize();
     std::pair<int, int> dimansions = canvas->getDimesions();
 
-    if((cordx > (dimansions.first * squareSize)) || (cordy > (dimansions.second * squareSize))) {
+    if((event->mouseButton.x > (dimansions.first * squareSize)) || (event->mouseButton.y > (dimansions.second * squareSize))) {
         return *this;
     }else {
-        return analyzeMouseInputFromBoard(cordx, cordy, canvas, event);
+        return analyzeMouseInputFromBoard(canvas, event);
     }
 }
 
-ClickHandler& ClickHandler::analyzeMouseInputFromBoard(int cordx, int cordy, DrawingCanvas* canvas, sf::Event* event) {
+ClickHandler& ClickHandler::analyzeMouseInputFromBoard(DrawingCanvas* canvas, sf::Event* event) {
     switch (event->mouseButton.button)
     {
     case sf::Mouse::Left:
@@ -49,10 +49,17 @@ ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingC
                                                      { "--", "--", "--", "bR", "--", "--", "--", "--" } };
 
     if(figureIsSelected) {
+        if ((rankAndFile.first == selectedRank) && (rankAndFile.second == selectedFile)) {
+            clickAction.removeFocus();
+            figureIsSelected = false;
+            selectedRank = -1;
+            selectedFile = -1;
+            return *this;
+        }
         if(isPiece(rankAndFile.first, rankAndFile.second, board) && isCurrentColor(rankAndFile.first, rankAndFile.second, board)) {
             selectedRank = rankAndFile.first;
             selectedFile = rankAndFile.second;
-            clickAction.setFocus(rankAndFile.first, rankAndFile.second);
+            clickAction.setFocus(selectedRank, selectedFile);
             figureIsSelected = true;
         }else {
             clickAction.createMove(selectedRank, selectedFile, rankAndFile.first, rankAndFile.second);
@@ -65,11 +72,10 @@ ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingC
         if(isPiece(rankAndFile.first, rankAndFile.second, board) && isCurrentColor(rankAndFile.first, rankAndFile.second, board)) {
             selectedRank = rankAndFile.first;
             selectedFile = rankAndFile.second;
-            clickAction.setFocus(rankAndFile.first, rankAndFile.second);
+            clickAction.setFocus(selectedRank, selectedFile);
             figureIsSelected = true;
         }
     }
-    
     return *this;
 }
 
@@ -78,14 +84,14 @@ ClickHandler& ClickHandler::checkClickRightButtonFromBoard() {
 }
 
 bool ClickHandler::isPiece(int rank, int file, std::vector<std::vector<std::string>>& board) {
-    if(board[file][rank] != "--") {
+    if(board[static_cast<std::size_t>(file)][static_cast<std::size_t>(rank)] != "--") {
         return true;
     }
     return false;
 }
 
 bool ClickHandler::isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board) {
-    std::string color = board[file][rank].substr(0, 1);
+    std::string color = board[static_cast<std::size_t>(file)][static_cast<std::size_t>(rank)].substr(0, 1);
     if(color == "b") {
         return true;
     }
