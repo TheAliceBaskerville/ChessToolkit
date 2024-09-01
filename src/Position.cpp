@@ -13,11 +13,27 @@ Position::Position(std::size_t boardHeight, const std::pair<std::size_t, std::si
 
 Position::Position(const Position& other) : file{other.file}, rank{other.rank}{}
 
+Position::Position(Position&& other) : file{std::move(other.file)}, rank{std::move(other.rank)}{}
+
 Position::~Position(){}
 
 Position& Position::operator=(const Position& other){
+    if (this == &other) {
+        return *this;
+    }
+
     file = other.file;
     rank = other.rank;
+    return *this;
+}
+
+Position& Position::operator=(Position&& other){
+    if (this == &other) {
+        return *this;
+    }
+
+    file = std::move(other.file);
+    rank = std::move(other.rank);
     return *this;
 }
 

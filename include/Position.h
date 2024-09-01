@@ -13,9 +13,11 @@ public:
     Position(std::size_t boardHeight, std::size_t row, std::size_t column);
     Position(std::size_t boardHeight, const std::pair<std::size_t, std::size_t>& indexes);
     Position(const Position& other);
+    Position(Position&& other);
     ~Position();
 
     Position& operator=(const Position& other);
+    Position& operator=(Position&& other);
     bool operator==(const Position& other) const;
     bool operator!=(const Position& other) const;
 
