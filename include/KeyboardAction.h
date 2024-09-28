@@ -2,15 +2,15 @@
 #define KEYBOARDACTION_H
 
 #include <SFML/Graphics.hpp>
-#include <DrawingCanvas.h>
+#include "ClassicChessCanvas.h"
 
 class KeyboardAction
 {
 private:
-    DrawingCanvas* canvas;
+    ClassicChessCanvas& canvas;
     sf::RenderWindow* window;
 public:
-    KeyboardAction(sf::RenderWindow* window, DrawingCanvas* drawingCanvas);
+    KeyboardAction(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas);
     ~KeyboardAction();
     KeyboardAction& undo();
     KeyboardAction& redo();

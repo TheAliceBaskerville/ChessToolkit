@@ -1,19 +1,18 @@
 #include "ClickAction.h"
 
-ClickAction::ClickAction(DrawingCanvas* canvas, sf::RenderWindow* window) {
-    this->canvas = canvas;
+ClickAction::ClickAction(ClassicChessCanvas& canvas, sf::RenderWindow* window) : canvas(canvas) {
     this->window = window;
 }
 
 ClickAction::~ClickAction() {}
 
 ClickAction& ClickAction::setFocus(int rank, int file) {
-    canvas->SetFocusCord(rank, file);
+    ClassicChess::SetFocusCord(rank, file, canvas);
     return *this;
 }
 
 ClickAction& ClickAction::removeFocus() {
-    canvas->removeFocus();
+    ClassicChess::removeFokus(canvas);
     return *this;
 }
 

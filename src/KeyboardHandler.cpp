@@ -1,6 +1,6 @@
 #include <KeyboardHandler.h>
 
-KeyboardHandler::KeyboardHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas) 
+KeyboardHandler::KeyboardHandler(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas) 
 : keyboardAction(window, drawingCanvas) {
 
 }

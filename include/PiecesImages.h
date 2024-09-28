@@ -13,7 +13,7 @@ class PiecesImages {
         PiecesImages();
         PiecesImages(std::vector<std::string> pieces);
         ~PiecesImages();
-        std::map<std::string, sf::Image> GetPiecesImages();
+        std::map<std::string, sf::Image> GetPiecesImages() const;
 };
 
 #endif

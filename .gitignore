@@ -6,3 +6,5 @@ build/
 *.log
 
 .vscode
+rebuild.bat
+run.bat

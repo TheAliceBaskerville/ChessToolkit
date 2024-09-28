@@ -1,16 +1,16 @@
 #ifndef CLICKACTION_H
 #define CLICKACTION_H
 
-#include <SFML/Graphics.hpp>
-#include <DrawingCanvas.h>
+#include "ClassicChessCanvas.h"
+#include "ClassicChessDrawer.h"
 
 class ClickAction
 {
 private:
-    DrawingCanvas* canvas;
+    ClassicChessCanvas& canvas;
     sf::RenderWindow* window;
 public:
-    ClickAction(DrawingCanvas* canvas, sf::RenderWindow* window);
+    ClickAction(ClassicChessCanvas& canvas, sf::RenderWindow* window);
     ~ClickAction();
     ClickAction& setFocus(int x, int y);
     ClickAction& createMove(int startRank, int startFile, int endRank, int endFile);

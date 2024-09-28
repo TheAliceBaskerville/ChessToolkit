@@ -31,6 +31,6 @@ PiecesImages::~PiecesImages() {
    
 }
 
-std::map<std::string, sf::Image> PiecesImages::GetPiecesImages() {
+std::map<std::string, sf::Image> PiecesImages::GetPiecesImages() const {
     return piecesImages;
 }

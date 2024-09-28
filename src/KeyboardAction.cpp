@@ -1,7 +1,6 @@
 #include <KeyboardAction.h>
 
-KeyboardAction::KeyboardAction(sf::RenderWindow* window, DrawingCanvas* drawingCanvas) {
-    this->canvas = drawingCanvas;
+KeyboardAction::KeyboardAction(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas) : canvas(drawingCanvas) {
     this->window = window;
 }
 

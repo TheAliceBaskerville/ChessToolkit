@@ -1,6 +1,6 @@
 #include "ClickHandler.h"
 
-ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas)
+ClickHandler::ClickHandler(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas)
 : clickAction(drawingCanvas, window) {
     figureIsSelected = false;
     selectedRank = -1;
@@ -9,9 +9,9 @@ ClickHandler::ClickHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanva
 
 ClickHandler::~ClickHandler() {}
 
-ClickHandler& ClickHandler::analyzeMouseInput(DrawingCanvas* canvas, sf::Event* event) {
-    int squareSize = canvas->getSquareSize();
-    std::pair<int, int> dimansions = canvas->getDimesions();
+ClickHandler& ClickHandler::analyzeMouseInput(ClassicChessCanvas& canvas, sf::Event* event) {
+    int squareSize = canvas.getSquareSize();
+    std::pair<int, int> dimansions = canvas.getDimensions();
 
     if((event->mouseButton.x > (dimansions.first * squareSize)) || (event->mouseButton.y > (dimansions.second * squareSize))) {
         return *this;
@@ -20,7 +20,7 @@ ClickHandler& ClickHandler::analyzeMouseInput(DrawingCanvas* canvas, sf::Event* 
     }
 }
 
-ClickHandler& ClickHandler::analyzeMouseInputFromBoard(DrawingCanvas* canvas, sf::Event* event) {
+ClickHandler& ClickHandler::analyzeMouseInputFromBoard(ClassicChessCanvas& canvas, sf::Event* event) {
     switch (event->mouseButton.button)
     {
     case sf::Mouse::Left:
@@ -35,9 +35,9 @@ ClickHandler& ClickHandler::analyzeMouseInputFromBoard(DrawingCanvas* canvas, sf
     return *this;
 }
 
-ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, DrawingCanvas* canvas) {
+ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, ClassicChessCanvas& canvas) {
 
-    std::pair<int, int> rankAndFile{canvas->getRankAndFileFromCords(x, y)};
+    std::pair<int, int> rankAndFile{ClassicChess::getRankAndFileFromCords(x, y, canvas)};
 
     std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
@@ -83,14 +83,14 @@ ClickHandler& ClickHandler::checkClickRightButtonFromBoard() {
     return *this;
 }
 
-bool ClickHandler::isPiece(int rank, int file, std::vector<std::vector<std::string>>& board) {
+bool ClickHandler::isPiece(int rank, int file, std::vector<std::vector<std::string>>& board) const {
     if(board[static_cast<std::size_t>(file)][static_cast<std::size_t>(rank)] != "--") {
         return true;
     }
     return false;
 }
 
-bool ClickHandler::isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board) {
+bool ClickHandler::isCurrentColor(int rank, int file, std::vector<std::vector<std::string>>& board) const {
     std::string color = board[static_cast<std::size_t>(file)][static_cast<std::size_t>(rank)].substr(0, 1);
     if(color == "b") {
         return true;

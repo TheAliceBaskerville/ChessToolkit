@@ -1,6 +1,6 @@
 @echo off
 
-REM %~dp0 is absolute path to batch file location.
+REM %~dp0 is the absolute path to the batch file location.
 cd /d "%~dp0"
 
 if "%~1"=="" (
@@ -37,26 +37,19 @@ echo Selected build configuration: %BUILD_TYPE%
 
 if exist build (
     echo Clearing build directory...
-    del /s /q build\*.* > nul
-    for /d %%p in (build\*) do rd /s /q "%%p"
-
-    pushd build
-    set "dir_empty=true"
-    for /f "delims=" %%d in ('dir /b /a') do (
-        set "dir_empty=false"
-    )
-    popd
-
-    if "%dir_empty%"=="true" (
-        echo Build directory cleared successfully.
-    ) else (
-        echo Build directory was not cleared successfully.
+    rmdir /s /q build
+    if exist build (
+        echo Failed to remove build directory.
         exit /b 1
     )
-) else (
-    echo Build directory does not exist. Creating it now...
-    mkdir build
 )
+
+mkdir build
+if not exist build (
+    echo Failed to create build directory.
+    exit /b 1
+)
+echo Build directory clear successfully.
 
 cd build
 
@@ -75,11 +68,13 @@ if %errorlevel% neq 0 (
 )
 
 cd "../bin"
-ChessToolkit
-if %errorlevel% neq 0 (
-    echo .exe launch failed
+
+if exist ChessToolkit.exe (
+    ChessToolkit.exe
+) else (
+    echo ChessToolkit.exe not found
     cd /d "%~dp0"
-    exit /b %errorlevel%
+    exit /b 1
 )
 
 cd /d "%~dp0"

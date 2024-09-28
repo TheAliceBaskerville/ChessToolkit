@@ -3,7 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <KeyboardAction.h>
+#include "KeyboardAction.h"
+#include "ClassicChessCanvas.h"
 
 class KeyboardHandler
 {
@@ -12,7 +13,7 @@ private:
     KeyboardHandler& undo();
     KeyboardHandler& redo();
 public:
-    KeyboardHandler(sf::RenderWindow* window, DrawingCanvas* drawingCanvas);
+    KeyboardHandler(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas);
     ~KeyboardHandler();
     KeyboardHandler& analyzeKeyboardInput(sf::Event* event);
 };
