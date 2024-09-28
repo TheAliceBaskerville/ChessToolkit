@@ -8,9 +8,9 @@ void RenderThread::renderClassicChessboard(sf::RenderWindow& window, ClassicChes
 
     while (isRunning) {
         window.clear(sf::Color::White);
-        ClassicChess::drawEmptyBoard(&window, canvas);
-        ClassicChess::drawFocus(&window, canvas);
-        ClassicChess::drawPieces(&window, canvas);
+        ClassicChessDrawer::drawEmptyBoard(&window, canvas);
+        ClassicChessDrawer::drawFocus(&window, canvas);
+        ClassicChessDrawer::drawPieces(&window, canvas);
         window.display();
     }
     std::cout << "nope";

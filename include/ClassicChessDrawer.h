@@ -4,7 +4,7 @@
 #include "ClassicChessCanvas.h"
 #include <SFML/Graphics.hpp>
 
-namespace ClassicChess {
+namespace ClassicChessDrawer {
     void drawEmptyBoard(sf::RenderWindow* window, ClassicChessCanvas& canvas);
     void resize(int width, int height, ClassicChessCanvas& canvas);
     const std::pair<int,int> getRankAndFileFromCords(int cordX, int cordY, ClassicChessCanvas& canvas);

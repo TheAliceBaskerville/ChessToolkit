@@ -37,7 +37,7 @@ ClickHandler& ClickHandler::analyzeMouseInputFromBoard(ClassicChessCanvas& canva
 
 ClickHandler& ClickHandler::checkClickLeftButtonFromBoard(int x, int y, ClassicChessCanvas& canvas) {
 
-    std::pair<int, int> rankAndFile{ClassicChess::getRankAndFileFromCords(x, y, canvas)};
+    std::pair<int, int> rankAndFile{ClassicChessDrawer::getRankAndFileFromCords(x, y, canvas)};
 
     std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 

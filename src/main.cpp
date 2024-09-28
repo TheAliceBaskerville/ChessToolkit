@@ -14,7 +14,7 @@ void resize(int width, int height, sf::RenderWindow* window, ClassicChessCanvas&
     window->setSize(sf::Vector2u(static_cast<unsigned int>(width), static_cast<unsigned int>(height)));
     sf::FloatRect visibleArea(0, 0, width, height);
     window->setView(sf::View(visibleArea));
-    ClassicChess::resize(width, height, canvas);
+    ClassicChessDrawer::resize(width, height, canvas);
 }
 
 int main()

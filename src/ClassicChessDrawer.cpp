@@ -1,6 +1,6 @@
 #include "ClassicChessDrawer.h"
 
-void ClassicChess::drawEmptyBoard(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawEmptyBoard(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
     int dimensionX = canvas.getDimensionX();
     int dimensionY = canvas.getDimensionY();
     int squareSize = canvas.getSquareSize();
@@ -34,11 +34,11 @@ namespace {
         }
     }
 }
-void ClassicChess::resize(int width, int height, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::resize(int width, int height, ClassicChessCanvas& canvas) {
     canvas.setSquareSize(calculateSquareSize(width, height, canvas));
 }
 
-void ClassicChess::drawFocus(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawFocus(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
     int focusCordX = canvas.getFocusCordX();
     int focusCordY = canvas.getFocusCordY();
     int squareSize = canvas.getSquareSize();
@@ -55,7 +55,7 @@ void ClassicChess::drawFocus(sf::RenderWindow* window, ClassicChessCanvas& canva
     }
 }
 
-void ClassicChess::drawPieces(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawPieces(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
     //
      std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
@@ -101,18 +101,18 @@ void ClassicChess::drawPieces(sf::RenderWindow* window, ClassicChessCanvas& canv
     ++flag;
 }
 
-const std::pair<int, int> ClassicChess::getRankAndFileFromCords(int cordX, int cordY, ClassicChessCanvas& canvas) {
+const std::pair<int, int> ClassicChessDrawer::getRankAndFileFromCords(int cordX, int cordY, ClassicChessCanvas& canvas) {
     int squareSize = canvas.getSquareSize();
     return std::make_pair(cordX / squareSize, cordY / squareSize);
 }
 
-void ClassicChess::removeFokus(ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::removeFokus(ClassicChessCanvas& canvas) {
     canvas.setFocusCordX(-1);
     canvas.setFocusCordY(-1);
 }
 
 //подумать над переносом в класс
-void ClassicChess::SetFocusCord(int x, int y, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::SetFocusCord(int x, int y, ClassicChessCanvas& canvas) {
     if ((x >= 0) && (y >= 0)) {
         canvas.setFocusCordX(x);
         canvas.setFocusCordY(y);

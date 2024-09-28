@@ -7,12 +7,12 @@ ClickAction::ClickAction(ClassicChessCanvas& canvas, sf::RenderWindow* window) :
 ClickAction::~ClickAction() {}
 
 ClickAction& ClickAction::setFocus(int rank, int file) {
-    ClassicChess::SetFocusCord(rank, file, canvas);
+    ClassicChessDrawer::SetFocusCord(rank, file, canvas);
     return *this;
 }
 
 ClickAction& ClickAction::removeFocus() {
-    ClassicChess::removeFokus(canvas);
+    ClassicChessDrawer::removeFokus(canvas);
     return *this;
 }
 
