@@ -21,7 +21,7 @@ int main()
 {
     int width = 512;
     int height = 512;
-    sf::RenderWindow window = sf::RenderWindow{ {static_cast<unsigned int>(width), static_cast<unsigned int>(height)}, "ChessToolKit"};
+    sf::RenderWindow window = sf::RenderWindow{ {static_cast<unsigned int>(width), static_cast<unsigned int>(height)}, "ChessToolKit", sf::Style::Titlebar | sf::Style::Close};
     window.setFramerateLimit(144);
     window.setVerticalSyncEnabled(true);
     

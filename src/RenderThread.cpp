@@ -1,7 +1,5 @@
 #include "RenderThread.h"
 
-//во всех классах все методы которые не изменяют обьекты должны помечаться как const
-
 void RenderThread::renderClassicChessboard(sf::RenderWindow& window, ClassicChessCanvas& canvas, const bool& isRunning) {
 
     window.setActive();
@@ -13,5 +11,4 @@ void RenderThread::renderClassicChessboard(sf::RenderWindow& window, ClassicChes
         ClassicChessDrawer::drawPieces(&window, canvas);
         window.display();
     }
-    std::cout << "nope";
 };
