@@ -1,6 +1,6 @@
 #include "ClassicChessDrawer.h"
 
-void ClassicChessDrawer::drawEmptyBoard(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawEmptyBoard(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
     int dimensionX = canvas.getDimensionX();
     int dimensionY = canvas.getDimensionY();
     int squareSize = canvas.getSquareSize();
@@ -16,13 +16,13 @@ void ClassicChessDrawer::drawEmptyBoard(sf::RenderWindow* window, ClassicChessCa
             }
 
             square.setPosition(sf::Vector2f(rank * squareSize, file * squareSize));
-            window->draw(square);
+            window.draw(square);
         }
     }
 }
 
 namespace {
-    const int calculateSquareSize(int width, int height, ClassicChessCanvas& canvas) {
+    const int calculateSquareSize(int width, int height, const ClassicChessCanvas& canvas) {
         int widthSquareSize, heightSquareSize;
         widthSquareSize = width / canvas.getDimensionX();
         heightSquareSize = height / canvas.getDimensionY();
@@ -33,12 +33,50 @@ namespace {
             return heightSquareSize;
         }
     }
+
+    void drawNotationWhite(sf::RenderWindow& window, const ClassicChessCanvas& canvas, sf::Text text, int fontSize) {
+
+        std::size_t fileCount{canvas.getDimensionY()};
+        std::size_t rankCount{canvas.getDimensionX()};
+        std::size_t squareSize{canvas.getSquareSize()};
+
+        for(std::size_t file{0}; file < fileCount; ++file) {
+            text.setString(std::to_string(fileCount - file));
+            text.setPosition(0, squareSize * file);
+            window.draw(text);
+        }
+
+        for(std::size_t rank{0}; rank < rankCount; ++rank) {
+            text.setString(fileToChar(rank));
+            text.setPosition(((rank + 1) * squareSize) - fontSize, (fileCount * squareSize) - fontSize * 1.25);
+            window.draw(text);
+        }
+    }
+
+    void drawNotationBlack(sf::RenderWindow& window, const ClassicChessCanvas& canvas, sf::Text text, int fontSize) {
+        
+        std::size_t fileCount{canvas.getDimensionY()};
+        std::size_t rankCount{canvas.getDimensionX()};
+        std::size_t squareSize{canvas.getSquareSize()};
+
+        for(std::size_t file{0}; file < fileCount; ++file) {
+            text.setString(std::to_string(file + 1));
+            text.setPosition(0, squareSize * file);
+            window.draw(text);
+        }
+
+        for(std::size_t rank{0}; rank < rankCount; ++rank) {
+            text.setString(fileToChar(rankCount - (rank +  1)));
+            text.setPosition(((rank + 1) * squareSize) - fontSize, (fileCount * squareSize) - fontSize * 1.25);
+            window.draw(text);
+        }
+    }
 }
 void ClassicChessDrawer::resize(int width, int height, ClassicChessCanvas& canvas) {
     canvas.setSquareSize(calculateSquareSize(width, height, canvas));
 }
 
-void ClassicChessDrawer::drawFocus(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawFocus(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
     int focusCordX = canvas.getFocusCordX();
     int focusCordY = canvas.getFocusCordY();
     int squareSize = canvas.getSquareSize();
@@ -51,11 +89,11 @@ void ClassicChessDrawer::drawFocus(sf::RenderWindow* window, ClassicChessCanvas&
         square.setOutlineColor(sf::Color{0, 0, 255});
         square.setFillColor(sf::Color{0,0,0,0});
         square.setPosition(sf::Vector2f{(rankAndFile.first * squareSize) + thickness, (rankAndFile.second * squareSize) + thickness});
-        window->draw(square);
+        window.draw(square);
     }
 }
 
-void ClassicChessDrawer::drawPieces(sf::RenderWindow* window, ClassicChessCanvas& canvas) {
+void ClassicChessDrawer::drawPieces(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
     //
      std::vector<std::vector<std::string>> board{ { "bR", "wR", "--", "--", "--", "--", "--", "bQ" },
                                                      { "--", "--", "--", "--", "--", "--", "--", "--" }, 
@@ -94,7 +132,7 @@ void ClassicChessDrawer::drawPieces(sf::RenderWindow* window, ClassicChessCanvas
                 pieceSprite.setScale(static_cast<float>(canvas.getSquareSize()) / 64, static_cast<float>(canvas.getSquareSize()) / 64);
                 pieceSprite.setTexture(pieceTexture);
                 pieceSprite.setPosition(rank * canvas.getSquareSize(), file * canvas.getSquareSize());
-                window->draw(pieceSprite);
+                window.draw(pieceSprite);
             }
         }
     }
@@ -109,6 +147,39 @@ const std::pair<int, int> ClassicChessDrawer::getRankAndFileFromCords(int cordX,
 void ClassicChessDrawer::removeFokus(ClassicChessCanvas& canvas) {
     canvas.setFocusCordX(-1);
     canvas.setFocusCordY(-1);
+}
+
+sf::Font font;
+bool showNotation{true};
+
+void ClassicChessDrawer::switchNotationMode() {
+    if(showNotation) {
+        showNotation = false;
+    } else {
+        showNotation = true;
+    }
+}
+
+void ClassicChessDrawer::drawNotation(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
+    if(!showNotation) {
+        return;
+    }
+    //шрифт должен храниться в файле настроек и быть одним на всю программу
+    if (!font.loadFromFile("../fonts/impact2.ttf")) {
+        return;
+    }
+    int fontSize{20};
+    sf::Text text("", font, fontSize);
+    text.setFillColor(sf::Color::Green);
+
+    //получаю от движка
+    bool white{true};
+
+    if(white) {
+        drawNotationWhite(window, canvas, text, fontSize);
+    } else {
+        drawNotationBlack(window, canvas, text, fontSize);
+    }
 }
 
 //подумать над переносом в класс

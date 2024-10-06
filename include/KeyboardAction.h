@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "ClassicChessCanvas.h"
+#include "ClassicChessDrawer.h"
 
 class KeyboardAction
 {
@@ -14,6 +15,7 @@ public:
     ~KeyboardAction();
     KeyboardAction& undo();
     KeyboardAction& redo();
+    KeyboardAction& switchNotationMode();
 };
 
 #endif

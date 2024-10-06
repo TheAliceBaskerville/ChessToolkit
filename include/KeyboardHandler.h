@@ -12,6 +12,7 @@ private:
     KeyboardAction keyboardAction;
     KeyboardHandler& undo();
     KeyboardHandler& redo();
+    KeyboardHandler& switchNotationMode();
 public:
     KeyboardHandler(sf::RenderWindow* window, ClassicChessCanvas& drawingCanvas);
     ~KeyboardHandler();

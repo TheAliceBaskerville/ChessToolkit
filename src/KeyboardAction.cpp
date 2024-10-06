@@ -17,3 +17,8 @@ KeyboardAction& KeyboardAction::redo() {
     std::cout << "redo";
     return *this;
 }
+
+KeyboardAction& KeyboardAction::switchNotationMode() {
+    ClassicChessDrawer::switchNotationMode();
+    return *this;
+}

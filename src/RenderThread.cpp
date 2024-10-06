@@ -6,9 +6,10 @@ void RenderThread::renderClassicChessboard(sf::RenderWindow& window, ClassicChes
 
     while (isRunning) {
         window.clear(sf::Color::White);
-        ClassicChessDrawer::drawEmptyBoard(&window, canvas);
-        ClassicChessDrawer::drawFocus(&window, canvas);
-        ClassicChessDrawer::drawPieces(&window, canvas);
+        ClassicChessDrawer::drawEmptyBoard(window, canvas);
+        ClassicChessDrawer::drawFocus(window, canvas);
+        ClassicChessDrawer::drawNotation(window, canvas);
+        ClassicChessDrawer::drawPieces(window, canvas);
         window.display();
     }
 };

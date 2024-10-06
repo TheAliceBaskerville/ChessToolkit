@@ -17,6 +17,9 @@ KeyboardHandler& KeyboardHandler::analyzeKeyboardInput(sf::Event* event) {
     case sf::Keyboard::Key::X:
         redo();
         break;
+    case sf::Keyboard::Key::C:
+        switchNotationMode();
+        break;
     default:
         break;
     }
@@ -30,5 +33,10 @@ KeyboardHandler& KeyboardHandler::undo() {
 
 KeyboardHandler& KeyboardHandler::redo() {
     keyboardAction.redo();
+    return *this;
+}
+
+KeyboardHandler& KeyboardHandler::switchNotationMode() {
+    keyboardAction.switchNotationMode();
     return *this;
 }
