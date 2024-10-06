@@ -139,7 +139,7 @@ void ClassicChessDrawer::drawPieces(sf::RenderWindow& window, const ClassicChess
     ++flag;
 }
 
-const std::pair<int, int> ClassicChessDrawer::getRankAndFileFromCords(int cordX, int cordY, ClassicChessCanvas& canvas) {
+const std::pair<int, int> ClassicChessDrawer::getRankAndFileFromCords(int cordX, int cordY, const ClassicChessCanvas& canvas) {
     int squareSize = canvas.getSquareSize();
     return std::make_pair(cordX / squareSize, cordY / squareSize);
 }
