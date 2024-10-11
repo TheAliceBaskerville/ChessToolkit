@@ -1,13 +1,13 @@
 #include "ClassicChessDrawer.h"
 
 void ClassicChessDrawer::drawEmptyBoard(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
-    int dimensionX = canvas.getDimensionX();
-    int dimensionY = canvas.getDimensionY();
-    int squareSize = canvas.getSquareSize();
-    for(int rank{0}; rank < dimensionX; ++rank) {
-        for(int file{0}; file < dimensionY; ++file) {
+    std::size_t dimensionX = static_cast<std::size_t>(canvas.getDimensionX());
+    std::size_t dimensionY = static_cast<std::size_t>(canvas.getDimensionY());
+    std::size_t squareSize = static_cast<std::size_t>(canvas.getSquareSize());
+    for(std::size_t rank{0}; rank < dimensionX; ++rank) {
+        for(std::size_t file{0}; file < dimensionY; ++file) {
             sf::RectangleShape square;
-            square.setSize(sf::Vector2f(squareSize, squareSize));
+            square.setSize(sf::Vector2f(static_cast<float>(squareSize), static_cast<float>(squareSize)));
 
             if((rank + file) % 2 == 0) {
                 square.setFillColor(sf::Color(255, 255, 255));
@@ -36,9 +36,9 @@ namespace {
 
     void drawNotationWhite(sf::RenderWindow& window, const ClassicChessCanvas& canvas, sf::Text text, int fontSize) {
 
-        std::size_t fileCount{canvas.getDimensionY()};
-        std::size_t rankCount{canvas.getDimensionX()};
-        std::size_t squareSize{canvas.getSquareSize()};
+        std::size_t fileCount{static_cast<std::size_t>(canvas.getDimensionY())};
+        std::size_t rankCount{static_cast<std::size_t>(canvas.getDimensionX())};
+        std::size_t squareSize{static_cast<std::size_t>(canvas.getSquareSize())};
 
         for(std::size_t file{0}; file < fileCount; ++file) {
             text.setString(std::to_string(fileCount - file));
@@ -48,16 +48,16 @@ namespace {
 
         for(std::size_t rank{0}; rank < rankCount; ++rank) {
             text.setString(fileToChar(rank));
-            text.setPosition(((rank + 1) * squareSize) - fontSize, (fileCount * squareSize) - fontSize * 1.25);
+            text.setPosition(((rank + 1) * squareSize) - static_cast<std::size_t>(fontSize), (fileCount * squareSize) - static_cast<std::size_t>(fontSize * 1.25));
             window.draw(text);
         }
     }
 
     void drawNotationBlack(sf::RenderWindow& window, const ClassicChessCanvas& canvas, sf::Text text, int fontSize) {
         
-        std::size_t fileCount{canvas.getDimensionY()};
-        std::size_t rankCount{canvas.getDimensionX()};
-        std::size_t squareSize{canvas.getSquareSize()};
+        std::size_t fileCount{static_cast<std::size_t>(canvas.getDimensionY())};
+        std::size_t rankCount{static_cast<std::size_t>(canvas.getDimensionX())};
+        std::size_t squareSize{static_cast<std::size_t>(canvas.getSquareSize())};
 
         for(std::size_t file{0}; file < fileCount; ++file) {
             text.setString(std::to_string(file + 1));
@@ -67,7 +67,7 @@ namespace {
 
         for(std::size_t rank{0}; rank < rankCount; ++rank) {
             text.setString(fileToChar(rankCount - (rank +  1)));
-            text.setPosition(((rank + 1) * squareSize) - fontSize, (fileCount * squareSize) - fontSize * 1.25);
+            text.setPosition(((rank + 1) * squareSize) - static_cast<std::size_t>(fontSize), (fileCount * squareSize) - static_cast<std::size_t>(fontSize * 1.25));
             window.draw(text);
         }
     }
@@ -77,18 +77,19 @@ void ClassicChessDrawer::resize(int width, int height, ClassicChessCanvas& canva
 }
 
 void ClassicChessDrawer::drawFocus(sf::RenderWindow& window, const ClassicChessCanvas& canvas) {
-    int focusCordX = canvas.getFocusCordX();
-    int focusCordY = canvas.getFocusCordY();
-    int squareSize = canvas.getSquareSize();
-    if((focusCordX != -1) && (focusCordY != -1)) {
-        int thickness = 5;
-        std::pair<int, int> rankAndFile{focusCordX, focusCordY};
+    std::size_t focusCordX = static_cast<std::size_t>(canvas.getFocusCordX());
+    std::size_t focusCordY = static_cast<std::size_t>(canvas.getFocusCordY());
+    std::size_t squareSize = static_cast<std::size_t>(canvas.getSquareSize());
+
+    if((static_cast<int>(focusCordX) != -1) && (static_cast<int>(focusCordY) != -1)) {
+        std::size_t thickness = 5;
+        std::pair<std::size_t, std::size_t> rankAndFile{focusCordX, focusCordY};
         sf::RectangleShape square;
-        square.setSize(sf::Vector2f{squareSize - thickness * 2, squareSize - thickness * 2});
+        square.setSize(sf::Vector2f{static_cast<float>(squareSize - thickness * 2), static_cast<float>(squareSize - thickness * 2)});
         square.setOutlineThickness(thickness);
         square.setOutlineColor(sf::Color{0, 0, 255});
         square.setFillColor(sf::Color{0,0,0,0});
-        square.setPosition(sf::Vector2f{(rankAndFile.first * squareSize) + thickness, (rankAndFile.second * squareSize) + thickness});
+        square.setPosition(sf::Vector2f{static_cast<float>((rankAndFile.first * squareSize) + thickness), static_cast<float>((rankAndFile.second * squareSize) + thickness)});
         window.draw(square);
     }
 }
@@ -116,8 +117,8 @@ void ClassicChessDrawer::drawPieces(sf::RenderWindow& window, const ClassicChess
                                                      { "--", "--", "--", "bR", "--", "--", "--", "--" } };
     //
     static int flag = 0;
-    for(int rank{0}; rank < canvas.getDimensionX(); ++rank) {
-        for(int file{0}; file < canvas.getDimensionY(); ++file) {
+    for(std::size_t rank{0}; rank < static_cast<std::size_t>(canvas.getDimensionX()); ++rank) {
+        for(std::size_t file{0}; file < static_cast<std::size_t>(canvas.getDimensionY()); ++file) {
             std::string piece;
             if((flag / 10) % 2 == 0) {
                 piece = board[file][rank];
@@ -131,7 +132,7 @@ void ClassicChessDrawer::drawPieces(sf::RenderWindow& window, const ClassicChess
                 sf::Sprite pieceSprite;
                 pieceSprite.setScale(static_cast<float>(canvas.getSquareSize()) / 64, static_cast<float>(canvas.getSquareSize()) / 64);
                 pieceSprite.setTexture(pieceTexture);
-                pieceSprite.setPosition(rank * canvas.getSquareSize(), file * canvas.getSquareSize());
+                pieceSprite.setPosition(rank * static_cast<std::size_t>(canvas.getSquareSize()), file * static_cast<std::size_t>(canvas.getSquareSize()));
                 window.draw(pieceSprite);
             }
         }
@@ -169,7 +170,7 @@ void ClassicChessDrawer::drawNotation(sf::RenderWindow& window, const ClassicChe
         return;
     }
     int fontSize{20};
-    sf::Text text("", font, fontSize);
+    sf::Text text("", font, static_cast<unsigned int>(fontSize));
     text.setFillColor(sf::Color::Green);
 
     //получаю от движка
