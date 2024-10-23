@@ -14,6 +14,9 @@ set(SFML_DIR "${CMAKE_SOURCE_DIR}/lib/SFML/lib/cmake/SFML")
 find_package(SFML 2.6.1 REQUIRED COMPONENTS system window graphics audio)
 
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
+
 add_executable(ChessToolkit ${SRC_FILES})
+
 target_link_libraries(ChessToolkit sfml-system sfml-window sfml-graphics sfml-audio)
-target_include_directories(ChessToolkit PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+target_include_directories(ChessToolkit PUBLIC ${CMAKE_SOURCE_DIR}/include)

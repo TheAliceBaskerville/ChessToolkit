@@ -1,8 +1,9 @@
 build/
-/bin/
+bin/
 
 *.a
 *.dll
 *.log
+*.bat
 
 .vscode

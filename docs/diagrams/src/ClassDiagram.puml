@@ -1,0 +1,7 @@
+@startuml ClassDiagram
+
+
+Position --> Piece : "contains"
+MoveFactory --> Move : "creates"
+Move --> Position : "references"
+@enduml
